@@ -332,7 +332,7 @@ fi
 
 echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating neptune..${NC}"
 
-if git clone https://github.com/vesselos/neptune && cd neptune && chmod +x * && ./make_it_work && cd ..; then
+if git clone https://github.com/sleuth3301/neptune && cd neptune && chmod +x * && ./make_it_work && cd ..; then
 	echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} neptune has been updated !${NC}"
 	exit 0
 else
