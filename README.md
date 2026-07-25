@@ -5,7 +5,9 @@
 ### [WARNINGS] ###
 - 1. Neptune is a personal project coded by gmasterone@duck.com, if you will use it you have to know that developer wont answer in case of any issue occurs in your machine(perhaps, issues are not common, in fact, they are very weird).
 
-- 2. Fakeroot/containers: These kind of limmited environments usually have problems with the firewall rules that numb script applies and causes DNS resolution imposible if is not via socks5/tor only !!.
+- 2. Fakeroot/containers: Have problems with firewall rules and causes DNS resolution imposible if is not via explicit socks5/tor only params !!.
+
+- 3. Neptune wont run on Termux/ISH or something like this, at least not in the way you might think.
 
 # [ Requeriments ] # 
 - 3. Required PKGs: Bash, all other can be managed by any of the scripts.
