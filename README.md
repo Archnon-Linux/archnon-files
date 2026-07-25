@@ -12,4 +12,4 @@
 - 4. Extra: Full root access(as i said before, to apply firewall with no issues and full sys DNS).
 
 # [ Clone ] #
-- As root: git clone https://github.com/sleuth0/neptune && cd neptune && chmod +x * && ./make_it_work
+- As root: git clone https://github.com/sleuth3301/neptune && cd neptune && chmod +x * && ./make_it_work
