@@ -207,7 +207,7 @@ myip(){
 
 if pgrep -x tor >/dev/null 2>&1; then
 
-   echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${P} Reverse Address:${GREEN} $(curl -Ss --socks5-hostname $ADDR:$SOCKS ifconfig.co)"
+   echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${P} Reverse Address:${GREEN} $(curl -Ss --socks5-hostname $ADDR:$SOCKS ifconfig.co)${NC}"
 
 else
 
