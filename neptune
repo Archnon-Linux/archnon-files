@@ -374,8 +374,8 @@ DNSPort $ADDR:$DNS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol Isol
 SocksPort $ADDR:$SOCKS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr
 ControlPort $ADDR:$CONTROL
 HTTPTunnelPort $ADDR:$HTTP
-EntryNodes {is},{ch},{ro},{fi},{ch},{ru}
-ExitNodes {us},{ca},{de},{fr},{nl},{se},{it},{at}
+EntryNodes {is},{ch},{ro},{fi}
+ExitNodes {ro},{is},{fi},{ch}
 StrictNodes 1
 MaxCircuitDirtiness 60
 ClientUseIPv6 0
