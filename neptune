@@ -250,7 +250,7 @@ sudo semanage permissive -a unconfined_t >/dev/null 2>&1
 
 modprobe nft_nat >/dev/null 2>&1
 modprobe nft_chain_nat >/dev/null 2>&1
-modprobe nf_nat >/dev/null 2>K1
+modprobe nf_nat >/dev/null 2>&1
 
 # Enforcing neptune's firewall rules here #
 
