@@ -234,7 +234,7 @@ else
 	fi
 fi
 
-echo -n -e "${NC}\n"
+echo -e "\n${NC}"
 
 }
 # <--
