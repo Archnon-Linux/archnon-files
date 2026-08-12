@@ -215,6 +215,9 @@ help(){
 # Check IP -->
 myip(){
 
+# Default API: 'ip-api.com?fields=query,asname,org,country,region,continent,proxy,mobile,status'
+# <- I recommend to get clear info ->
+
 check_ip='ip-api.com?fields=query,asname,org,country,region,continent,proxy,mobile,status'
 
 if pgrep -x tor >/dev/null 2>&1; then
