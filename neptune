@@ -215,26 +215,24 @@ help(){
 # Check IP -->
 myip(){
 
-echo -e -n "\n${ORANGE}"
+check_ip='ip-api.com?fields=query,asname,org,country,region,continent,proxy,mobile,status'
 
 if pgrep -x tor >/dev/null 2>&1; then
 	
-	if ! curl --socks5-hostname $ADDR:$SOCKS https://check.torproject.org/api/ip -w "\n" -s --user-agent "noleak" -m 5; then
+	if ! curl --socks5-hostname $ADDR:$SOCKS $check_ip -w "\n" -s -m 5; then
 		echo -n -e "${RED}[${NC}err${RED}]${NC} Could not check IP (timeout)${NC}\n"
 		exit 1
 	else
 		exit 0
 	fi
 else
-	if ! curl https://check.torproject.org/api/ip -w "\n" -s --user-agent "noleak" -m 5; then
+	if ! curl $check_ip -w "\n" -s -m 5; then
 		echo -n -e "${RED}[${NC}err${RED}]${NC} Could not check IP (timeout)${NC}\n"
 		exit 1
 	else
 		exit 0
 	fi
 fi
-
-echo -e "\n${NC}"
 
 }
 # <--
