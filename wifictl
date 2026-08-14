@@ -24,6 +24,13 @@ LB="\e[36m"
 
 NC="\e[0m"
 
+#<- Check if networkmanager's cli util is installed ->#
+
+if ! $(command -v nmcli >/dev/null 2>&1); then
+    echo -e "\n${RED}[${WHITE}err${RED}] ${ORANGE}'nmcli':${WHITE} command not found, please, install ${LB}'networkmanager-cli'${WHITE} from your package manager!${NC}"
+    exit 1
+fi
+
 # <- Start Network daemon if not running ->
 
 if ! pgrep -x NetworkManager >/dev/null 2>&1; then
