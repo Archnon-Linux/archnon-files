@@ -1,12 +1,12 @@
 #!/bin/bash
 
 ###########################################################################################################################
-#
-# Network Killer, for system's personal defense against hackers.
-# By: archnon@protonmail.com, btw
-# Based in: bash
-# Requires: bash, hping, sudo
-#
+#                                                                                                                         #
+# Network Killer, for system's personal defense against hackers.                                                          #
+# By: archnon@protonmail.com, btw                                                                                         #
+# Based in: bash                                                                                                          #
+# Requires: bash, hping, sudo                                                                                             #
+#                                                                                                                         #
 ###########################################################################################################################
 
 RED="\e[1;31m"
