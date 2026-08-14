@@ -1,0 +1,168 @@
+#!/bin/bash
+
+###########################################################################
+#           System Wifi-Control - BY: anon_kirby@protonmail.com           #  
+###########################################################################
+
+### Colors (ignore this) ###
+
+WHITE="\e[1;37m"
+
+RED="\e[1;31m"
+
+GREEN="\e[1;32m"
+
+BLUE="\e[1;34m"
+
+P="\e[1;35m"
+
+YELLOW="\e[1;33m"
+
+ORANGE="\e[38;5;214m"
+
+LB="\e[36m"
+
+NC="\e[0m"
+
+# <- Start Network daemon if not running ->
+
+if ! pgrep -x NetworkManager >/dev/null 2>&1; then
+	NetworkManager >/dev/null 2>&1
+fi
+
+# <- Manual -> #
+
+help_p(){
+	echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${WHITE} usage: ${LB}sudo${GREEN} wifictl${YELLOW} <${NC}option${YELLOW}> <${NC}args${YELLOW}>"
+	echo -e "\n${BLUE}[${GREEN}1${BLUE}]${WHITE} --connect|-C: ${YELLOW}<${NC}ssid${YELLOW}> <${NC}passwd${YELLOW}> <${NC}ifname${YELLOW}>${NC}"
+	echo -e "\n${BLUE}[${GREEN}2${BLUE}]${WHITE} --delete-connection|-W: ${YELLOW}<${NC}conection_name${YELLOW}>${NC}"
+	echo -e "\n${BLUE}[${GREEN}3${BLUE}]${WHITE} --list|-l: ${YELLOW}<${NC}object${YELLOW}> ${BLUE}(${LB}wifi/created${BLUE})${NC}"
+	echo -e "\n${BLUE}[${GREEN}4${BLUE}]${WHITE} --help|-help|help|-h: Print manual${NC}"
+}
+
+
+
+delete_c(){
+	
+	connection=$2
+
+	if [[ -z $connection ]]; then
+	    echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Bad usage: missing connection name${NC}"
+	    echo -e "\n${P}[${YELLOW}warn${P}]${WHITE} usage: ${GREEN}wifictl ${ORANGE}--delete-connection ${YELLOW}<${NC}connection${YELLOW}>${NC}"
+	    exit 1
+	else
+	    nmcli connection delete $connection >/dev/null 2>&1 && echo -e "\n${GREEN}[${WHITE}notice${GREEN}]${WHITE} Connection: ${ORANGE}'$connection'${WHITE} was deleted${NC}" || echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Could not delete connection: ${ORANGE}'$connection'${NC}"
+	    exit 0
+	fi
+}
+
+
+
+# <- Arguments Section ->
+
+while [ $# -gt 0 ]; do
+	case $1 in
+	--connect|-C)
+	mode=1
+
+	ssid=$2
+	passwd=$3
+	ifname=$4
+	
+	if [[ -z $ssid || -z $passwd || -z $ifname ]]; then
+	    echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Bad usage: Missing args${NC}"
+	    echo -e "\n${LB}[${YELLOW}warn${LB}]${WHITE} usage: ${GREEN}wifictl ${NC}--connect ${YELLOW}<${NC}ssid${YELLOW}> <${NC}passwd${YELLOW}> <${NC}ifname${YELLOW}>${NC}"
+	    echo -e "\n${LB}[${YELLOW}warn${LB}]${WHITE} Example: ${LB}sudo ${GREEN}wifictl ${YELLOW}my_home1 ${ORANGE}password123 ${YELLOW}wlan0${NC}"
+	    exit 1
+	else
+	    nmcli dev wifi rescan >/dev/null 2>&1
+	    nmcli dev wifi connect $ssid password $passwd ifname $ifname >/dev/null 2>&1 && echo -e "\n${GREEN}[${WHITE}notice${GREEN}]${WHITE} Wifi is now active, NIC: ${ORANGE}'$ifname'${WHITE}, SSID: ${BLUE}'$ssid'${NC}" || echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Could not create link with ${BLUE}'$ssid'${WHITE}, using ${ORANGE}'$ifname'${WHITE}, as a valid NIC${NC}"
+	    exit 0
+	fi
+
+	
+	shift
+	break
+	;;
+
+	--delete-connection|-W)
+	mode=2
+
+	connection=$2
+
+	if [[ -z $connection ]]; then
+	    echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Bad usage: missing connection name${NC}"
+	    echo -e "\n${P}[${YELLOW}warn${P}]${WHITE} usage: ${GREEN}wifictl ${ORANGE}--delete-connection ${YELLOW}<${NC}connection${YELLOW}>${NC}"
+	    exit 1
+	else
+	    nmcli connection delete $connection >/dev/null 2>&1 && echo -e "\n${GREEN}[${WHITE}notice${GREEN}]${WHITE} Connection: ${ORANGE}'$connection'${WHITE} was deleted${NC}" || echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Could not delete connection: ${ORANGE}'$connection'${NC}"
+	    exit 0
+	fi
+
+		
+	shift
+	break
+	;;
+
+	--list|-l)
+	mode=3
+
+	target=$2
+	
+	if [[ -z $target ]]; then
+		echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Bad usage: missing args${NC}"
+		echo -e "\n${P}[${YELLOW}warn${P}]${WHITE} usage: ${LB}sudo ${GREEN}wifictl ${YELLOW}-l ${ORANGE}<${NC}option${ORANGE}>${NC}"
+		exit 1
+	fi
+	
+	if [[ $target == "created" ]]; then
+		echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${WHITE} Showing connections list: ${NC}"
+		nmcli connection
+		exit 0
+	elif [[ $target == "wifi" ]]; then
+	  	echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${WHITE} Waiting for Wifi devices..${NC}"
+		if nmcli dev wifi rescan >/dev/null 2>&1; then
+		   echo -e "\n${GREEN}[${WHITE}notice${GREEN}]${WHITE} A Wifi device exists on this system, showing APs..${NC}"
+		   sleep 1
+		   nmcli dev wifi
+		else
+		   echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} No wifi devices are available on this system !!${NC}"
+		   exit 1
+		fi
+	else
+		echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Invalid option ${ORANGE}'$target'${NC}"
+		echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${WHITE} Valid Options are: ${NC}"
+		echo -e "\n1. created: ${WHITE}Shows system's established connections${NC}"
+		echo -e "\n2. wifi: ${WHITE}Shows available Access Points via dev scanning${NC}"
+		exit 1
+	fi
+
+
+	shift 
+	break
+	;;
+	
+	--help|-help|help|-h)
+	mode=4
+
+	help_p
+
+	shift
+	break
+	;;
+
+	--*|-*|*)
+	mode=5
+
+	help_p
+	
+	shift
+	break
+	;;
+	esac
+done
+
+if [ -z "$mode" ]; then
+	help_p
+	exit 0
+fi
