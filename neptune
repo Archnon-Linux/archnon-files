@@ -1,5 +1,13 @@
 #!/bin/bash
 
+##################################################################################################################################
+# NEPTUNE - bash based privacy tool.                                                                                             #
+# Based in: bash.                                                                                                                #
+# Requires: netcat-openbsd curl tor nftables procps networkmanager iproute2 coreutils util-linux bash sudo figlet e2fsprogs i2pd #
+# Version: 3.0.12.                                                                                                               #
+# Developer is: archnon@protonmail.com, btw.                                                                                     #
+##################################################################################################################################
+
 # <-- colors -->
 
 RED="\e[1;31m"
@@ -14,7 +22,7 @@ YELLOW="\e[1;33m"
 
 ORANGE="\e[38;5;214m"
 
-LB="\e[36m"
+LB="\e[1;36m"
 
 WHITE="\e[1;37m"
 
