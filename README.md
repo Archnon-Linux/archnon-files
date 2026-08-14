@@ -1,13 +1,13 @@
 # Archnon Linux's Project File v3.0.12 (by archnon@protonmail.com btw)
 # Coded by: archnon@protonmail.com, at all btw
 
-contains.utils = (neptune, neptunec, neptuner, mactool, mactd, nkill, setup-archnon, wifictl)
-contains.files = (archnon.iso, .profile, .shrc, README.md, config.ini, example_bridges.txt)
+Contains.utils = (neptune, neptunec, neptuner, mactool, mactd, nkill, setup-archnon, wifictl)
+Contains.files = (archnon.iso, .profile, .shrc, README.md, config.ini, example_bridges.txt)
 
-requires.packages = (bash, sudo)
-supports.service_managers = (systemd, runit, open-rc)
-supports.package_managers = (apt, apk, pacman, emerge, xbps-install, dnf, yum, zypper)
+Requires.packages = (bash, sudo)
+Supports.service_managers = (systemd, runit, open-rc)
+Supports.package_managers = (apt, apk, pacman, emerge, xbps-install, dnf, yum, zypper)
 
-# project.description = “Developed by: archnon@protonmail.com btw, Archnon is an Alpine Linux based distro with the only focus being anonymous, fully private, super portable/light, using as much 50 mb of ram by default on its minimal #
+Project.description = “Developed by: archnon@protonmail.com btw, Archnon is an Alpine Linux based distro with the only focus being anonymous, fully private, super portable/light, using as much 50 mb of ram by default on its minimal #
 
-# Project.clone = $(sudo git clone https://github.com/sleuth3301/archnon-files && cd archnon-files && sudo chmod +x * && sudo ./make_it_work.sh) #
+Project.usage = $(sudo git clone https://github.com/sleuth3301/archnon-files && cd archnon-files && sudo chmod +x * && sudo ./make_it_work.sh) #
