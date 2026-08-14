@@ -4,3 +4,35 @@
 # CODED BY: archnon@protonmail.com, btw.                                                                       #
 #                                                                                                              #
 ################################################################################################################
+
+#### <-- PROMPT --> ####
+# [user@hostname] pwd >
+
+PS1="\033[1;31m[\033[1;31m\u\033[1;0m@\033[1;32m\h\033[1;31m]\033[0m \w \> "
+
+#### <-- ALIAS --> ####
+
+web="torbrowser-launcher"
+
+alias browser="sudo -u $USER $web &"
+alias brower-t="sudo -u $USER $web &"
+alias browser-f="sudo -u $USER falkon &"
+alias nga="su"
+alias fucking="sudo"
+alias vim="vi"
+alias polybar="polybar -c $HOME/.config/polybar/config.ini"
+alias grep="grep --color=auto"
+alias sl="ls -F --color=auto"
+alias ls="ls -F --color=auto"
+alias ll="ls -lhF --color=auto"
+alias la="ls -lahF --color=auto"
+alias ..="cd .."
+alias ...="cd ../.."
+alias myip="neptune myip"
+alias changeid="neptune changeid"
+alias c="clear"
+alias r="reset"
+alias a="ip a"
+alias md="mkdir -p"
+alias du="du -h"
+alias df="df -h"
