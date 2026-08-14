@@ -16,13 +16,14 @@ ORANGE="\e[38;5;214m"
 
 LB="\e[36m"
 
-NC="\e[0m"
+WHITE="\e[1;37m"
 
+NC="\e[0m"
 
 # <-- Dependencies --> #
 # Always dynamic #
 
-if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && command -v tor >/dev/null 2>&1 >/dev/null 2>&1 && command -v bash >/dev/null 2>&1 && command -v pkill >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1 && command -v NetworkManager >/dev/null 2>&1 && command -v nft >/dev/null 2>&1 && command -v figlet >/dev/null 2>&1 && command -v chattr >/dev/null 2>&1 && command -v i2pd >/dev/null 2>&1); then
+if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && command -v tor >/dev/null 2>&1 && command -v bash >/dev/null 2>&1 && command -v pkill >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1 && command -v NetworkManager >/dev/null 2>&1 && command -v nft >/dev/null 2>&1 && command -v figlet >/dev/null 2>&1 && command -v chattr >/dev/null 2>&1 && command -v i2pd >/dev/null 2>&1); then
 
        if [[ $(command -v apt) ]]; then
 
@@ -104,8 +105,8 @@ if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && comman
               wait
         else
               pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo figlet e2fsprogs i2pd)
-              echo -e "${RED}[${NC}err${RED}]${NC} Missing dependencies !!${NC}"
-              echo -e "${RED}[${NC}err${RED}]${NC} Not common: ${RED}unsuported pkg manager, please, install: ${BLUE}(${YELLOW}${pkgs[@]}${BLUE})${NC}"
+              echo -e "${RED}[${NC}err${RED}]${WHITE} Missing dependencies !!${NC}"
+              echo -e "${RED}[${NC}err${RED}]${WHITE} Not common: ${RED}unsuported pkg manager${LB}, please, install: ${BLUE}(${LB}${pkgs[@]}${BLUE})${NC}"
               exit 1
         fi
 fi
@@ -113,10 +114,10 @@ fi
 # <-- Banner --> #
 # Here, so it checks dependencies first #
 
-echo -e "${BLUE}" && figlet neptune
-echo -n -e "${P}v3.0.0.10 ${LB}-->${ORANGE} System Anonymation Tool${NC}"
+echo -e "${LB}" && figlet neptune
+echo -n -e "${BLUE}[*]${ORANGE} Portable Bash Anonymation Tool${NC}"
 echo -e "\n"
-echo -e "${BLUE}[${GREEN}*${BLUE}]${GREEN} Developed by: ${LB}s0meonex${P}@protonmail.com${NC}"
+echo -e "${BLUE}[${GREEN}notice${BLUE}]${WHITE} Developed by: ${LB}archnon${P}@protonmail.com${NC}"
 
 # Service Managers && Boot Automation
 
@@ -192,7 +193,7 @@ FWFILE=/etc/neptune_rules.nft
 # Torrc Check -->
 torrc(){
 if ! $(tor --verify-config >/dev/null 2>&1); then
-	echo -e "\n${RED}[${NC}err${RED}] ${NC}Bad usage: ${RED}Invalid Torrc${NC}, Try ${ORANGE}'neptunec reset'${NC}"
+	echo -e "\n${RED}[${WHITE}err${RED}] Invalid Torrc${WHITE}, Try ${ORANGE}'neptunec reset'${NC}"
 	exit 1
 fi
 }
@@ -200,14 +201,14 @@ fi
 
 # Help page -->
 help(){
-	echo -e "\n${BLUE}[${LB}*${BLUE}]${GREEN} usage: ${P}neptune ${NC}<${BLUE}option${NC}>"
-	echo -e "\n${ORANGE}[${NC}1${ORANGE}] ${LB}start: ${GREEN}start script${NC}"
-	echo -e "\n${ORANGE}[${NC}2${ORANGE}] ${LB}stop: ${RED}stop script${NC}"
-	echo -e "\n${ORANGE}[${NC}3${ORANGE}] ${LB}restart: ${YELLOW}restart ${LB}script"
-	echo -e "\n${ORANGE}[${NC}4${ORANGE}] ${LB}enable: ${GREEN}enable ${ORANGE}script on boot"
-	echo -e "\n${ORANGE}[${NC}5${ORANGE}] ${LB}disable: ${RED}disable ${ORANGE}script on boot"
-	echo -e "\n${ORANGE}[${NC}6${ORANGE}] ${LB}myip: ${BLUE}show ${ORANGE}Your IP${NC}"
-	echo -e "\n${ORANGE}[${NC}7${ORANGE}] ${LB}changeid: ${ORANGE}change ${P}Your Tor IP${NC}"
+	echo -e "\n${RED}[${ORANGE}warn${RED}]${YELLOW} usage: ${LB}neptune ${YELLOW}<${GREEN}option${YELLOW}>${NC}"
+	echo -e "\n${ORANGE}[${WHITE}1${ORANGE}] ${LB}start: ${GREEN}Start ${WHITE}script${NC}"
+	echo -e "\n${ORANGE}[${WHITE}2${ORANGE}] ${LB}stop: ${RED}Stop ${WHITE}script${NC}"
+	echo -e "\n${ORANGE}[${WHITE}3${ORANGE}] ${LB}restart: ${YELLOW}Restart ${WHITE}script${NC}"
+	echo -e "\n${ORANGE}[${WHITE}4${ORANGE}] ${LB}enable: ${GREEN}Enable ${ORANGE}script on boot${NC}"
+	echo -e "\n${ORANGE}[${WHITE}5${ORANGE}] ${LB}disable: ${RED}Disable ${ORANGE}script on boot${NC}"
+	echo -e "\n${ORANGE}[${WHITE}6${ORANGE}] ${LB}myip: ${BLUE}Show ${WHITE}your IP${NC}"
+	echo -e "\n${ORANGE}[${WHITE}7${ORANGE}] ${LB}changeid: ${ORANGE}Change ${WHITE}your IP${NC}"
 	exit 1
 }
 # <--
@@ -223,14 +224,14 @@ check_ip='ip-api.com?fields=query,asname,org,country,region,continent,proxy,mobi
 if pgrep -x tor >/dev/null 2>&1; then
 	
 	if ! curl --socks5-hostname $ADDR:$SOCKS $check_ip -w "\n" -s -m 5; then
-		echo -n -e "${RED}[${NC}err${RED}]${NC} Could not check IP (timeout)${NC}\n"
+		echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Could not check IP (timeout)${NC}"
 		exit 1
 	else
 		exit 0
 	fi
 else
 	if ! curl $check_ip -w "\n" -s -m 5; then
-		echo -n -e "${RED}[${NC}err${RED}]${NC} Could not check IP (timeout)${NC}\n"
+		echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Could not check IP (timeout)${NC}"
 		exit 1
 	else
 		exit 0
@@ -322,6 +323,13 @@ table ip nat {
                 }
 }
 EOT
+
+######## SSH Optional, delete if not needed ##########
+
+SSH=22
+
+sudo iptables -I INPUT -p tcp --dport $SSH -j ACCEPT >/dev/null 2>&1
+sudo iptables -I OUTPUT -p tcp --dport $$SSH -j ACCEPT >/dev/null 2>&1
 
 chattr +i $FWFILE >/dev/null 2>&1
 
@@ -527,18 +535,18 @@ mode=1
 # You cannot run this as an standard user #
 
 if [ $EUID -ne 0 ]; then
-        echo -e "\n${RED}[${NC}err${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+        echo -e "\n${RED}[${NC}err${RED}] Run as root${NC}"
         exit 1
 fi
 
 torrc
 
 if ! pgrep -x tor >/dev/null 2>&1; then
-	echo -e "\n${ORANGE}[${NC}warn${ORANGE}]${GREEN} Starting ${BLUE}Neptune ${P}(${GREEN}system's Anonymous mode${P})${NC}"
+	echo -e "\n${BLUE}[${GREEN}notice${GREEN}]${LB} Starting ${P}Tor ${LB}and ${ORANGE}i2p${NC}"
     	config
     	exit 0
 else
-    	echo -e "\n${RED}[${NC}err${RED}]${NC} Invalid Argument: ${GREEN}neptune is running${NC}"
+    	echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Invalid Argument: ${P}Tor ${GREEN}is running${NC}"
     	exit 0
 fi
 
@@ -554,7 +562,7 @@ mode=2
 # You cannot run this as an standard user #
 
 if [ $EUID -ne 0 ]; then
-        echo -e "\n${RED}[${NC}err${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+        echo -e "\n${RED}[${WHITE}err${RED}] Run as root${NC}"
         exit 1
 fi
 
@@ -565,7 +573,7 @@ break
 
 ;;
 
-myip|--myip|-myip|-i)
+myip|--myip|-myip)
 
 mode=3
 
@@ -576,17 +584,17 @@ break
 
 ;;
 
-changeid|--changeid|-changeid|-c)
+changeid|--changeid|-changeid)
 
 mode=4
 
 if pgrep -x tor >/dev/null 2>&1; then
 
-   echo -e "AUTHENTICATE \"\"\nSIGNAL NEWNYM\nQUIT" | nc $ADDR $CONTROL >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${P} You got a new id from Tor${NC}" || echo -e "\n${RED}[${NC}err${RED}]${NC} Could not request a new id${NC}"
+   echo -e "AUTHENTICATE \"\"\nSIGNAL NEWNYM\nQUIT" | nc $ADDR $CONTROL >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${P} Got Newnym !${NC}" || echo -e "\n${RED}[${NC}err${RED}]${NC} Could not get new id${NC}"
 
 else
 
-   echo -e "\n${RED}[${NC}err${RED}]${NC} Invalid Argument: ${RED}neptune is not running${NC}"
+   echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Invalid Argument: ${P}Tor ${RED}is not running${NC}"
    exit 1
 
 fi
@@ -604,7 +612,7 @@ mode=5
 # You cannot run this as an standard user #
 
 if [ "$EUID" -ne 0 ]; then
-    echo -e "\n${RED}[${NC}err${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+    echo -e "\n${RED}[${NC}err${RED}] Run as root${NC}"
     exit 1
 fi
 
@@ -613,9 +621,9 @@ torrc
 if [ -f /etc/systemd/system/neptune.service ] && command -v systemctl >/dev/null 2>&1; then
 
     if systemctl is-enabled neptune >/dev/null 2>&1; then
-       echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} neptune is enabled on this system${NC}"
+       echo -e "\n${BLUE}[${GREEN}notice${BLUE}] ${P}Tor ${GREEN}will start on boot${NC}"
     else
-        systemctl enable neptune >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${NC} neptune was enabled${NC}" || echo -e "\n${RED}[${NC}err${RED}]${NC} Could not enable neptune${NC}"
+        systemctl enable neptune >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${P} Tor ${GREEN}was enabled${NC}" || echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Could not enable ${P}Tor${NC}"
     fi
 fi
 
@@ -630,18 +638,18 @@ if [ -f /etc/sv/neptune/run ] && command -v runit >/dev/null 2>&1; then
         fi
 
       if ls -l $RSDIR/neptune/ >/dev/null 2>&1; then
-	      echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} neptune is enabled on this system${NC}"
+	      echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${P} Tor${GREEN} will start on boot${NC}"
       else
-           ln -s /etc/sv/neptune $RSDIR >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} neptune was enabled${NC}" || echo -e "\n${RED}[${NC}err${RED}]${NC} Could not enable neptune${NC}"
+           ln -s /etc/sv/neptune $RSDIR >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}notice${BLUE}] ${P}Tor ${GREEN} was enabled${NC}" || echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Could not enable ${P}Tor${NC}"
       fi
 fi
 
 if [ -f /etc/init.d/neptune ] && command -v rc-update >/dev/null 2>&1; then
 
       if sudo rc-update | grep -iE "neptune" >/dev/null 2>&1; then
-           echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} neptune is enabled on this system${NC}"
+           echo -e "\n${BLUE}[${GREEN}notice${BLUE}] ${P}Tor${GREEN} will start on boot${NC}"
       else
-           sudo rc-update add neptune default >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} neptune was enabled${NC}" || echo -e "\n${RED}[${NC}err${RED}]${NC} Could not enable neptune${NC}"
+           sudo rc-update add neptune default >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${P} Tor ${GREEN}was enabled${NC}" || echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Could not enable ${P}Tor${NC}"
       fi
 fi
 
@@ -657,7 +665,7 @@ disable|--disable|-disable)
 mode=6
 
 if [ "$EUID" -ne 0 ]; then
-    echo -e "\n${RED}[${NC}err${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+    echo -e "\n${RED}[${NC}err${RED}] Run as root${NC}"
     exit 1
 fi
 
@@ -719,13 +727,13 @@ restart|--restart|-restart)
 mode=7
 
 if [ $EUID -ne 0 ]; then
-    echo -e "\n${RED}[${NC}err${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+    echo -e "\n${RED}[${NC}err${RED}] Run as root${NC}"
     exit 1
 fi
 
 torrc
 
-echo -e "\n${ORANGE}[${NC}warn${ORANGE}]${GREEN} Restarting neptune ${P}(${GREEN}system's anonymous mode${P})${NC}"
+echo -e "\n${ORANGE}[${YELLOW}warn${ORANGE}]${BLUE} Restarting ${P}Tor ${LB}and ${ORANGE}i2p${NC}"
 
 pkill -9 tor >/dev/null 2>&1
 pkill -9 NetworkManager >/dev/null 2>&1
@@ -750,7 +758,7 @@ break
 --*|-*|*)
 mode=10
 
-echo -e "\n${RED}[${NC}err${RED}]${NC} Bad usage: ${RED}unknown action ${YELLOW}'$1'${NC}, see ${GREEN}'neptune help'${NC}"
+echo -e "\n${RED}[${NC}err${RED}] ${RED}unknown action ${YELLOW}'$1'${NC}, see ${GREEN}'neptune help'${NC}"
 
 exit 1
 
