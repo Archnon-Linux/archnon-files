@@ -8,6 +8,6 @@ Requires.packages = (bash, sudo)
 Supports.service_managers = (systemd, runit, open-rc)
 Supports.package_managers = (apt, apk, pacman, emerge, xbps-install, dnf, yum, zypper)
 
-Project.description = “Developed by: archnon@protonmail.com btw, Archnon is an Alpine Linux based distro with the only focus being anonymous, fully private, super portable/light, using as much 50 mb of ram by default on its minimal #
+Project.description = “Developed by: archnon@protonmail.com btw, Archnon is an Alpine Linux based distro with the only focus being anonymous, fully private, super portable/light, using as much 50 mb of ram by default on its minimal”
 
-Project.usage = $(sudo git clone https://github.com/sleuth3301/archnon-files && cd archnon-files && sudo chmod +x * && sudo ./make_it_work.sh) #
+Project.usage = $(sudo git clone https://github.com/Archnon-Linux/archnon-files && cd archnon-files && sudo chmod +x * && sudo ./make_it_work)
