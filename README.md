@@ -10,5 +10,4 @@
 
 # Project.description = “Developed by: archnon@protonmail.com btw, Archnon is an Alpine Linux based distro with the only focus being anonymous, fully private, super portable/light, using as much 50 mb of ram by default on its minimal 
 
-# Project.usage
-- As root: git clone https://github.com/sleuth3301/neptune && cd neptune && chmod +x * && ./make_it_work
+# Project.clone = $(sudo git clone https://github.com/sleuth3301/archnon-files && cd archnon-files && sudo chmod +x * && sudo ./make_it_work.sh)
