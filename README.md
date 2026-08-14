@@ -1,4 +1,4 @@
-# Archnon Linux's ProjectPrivacy Utils v3.0.12 (stable)
+# Archnon Linux's Project File v3.0.12 (by archnon@protonmail.com btw)
 # Coded by: archnon@protonmail.com, at all btw
 
 # Contains.utils = (neptune, neptunec, neptuner, mactool, mactd, nkill, setup-archnon, wifictl)
