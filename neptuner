@@ -97,7 +97,7 @@ while [ $# -gt 0 ]; do
         mode=1
         url=$2
 
-        if [ -z $link ]; then
+        if [ -z $url ]; then
             echo -e "\n${RED}[${NC}-${RED}] Missing an url${NC}"
             echo -e "\n${ORANGE}[${YELLOW}!${ORANGE}]${NC} usage: ${LB}neptuner ${P}--url ${YELLOW}<${NC}url${YELLOW}>${NC}"
             exit 1
@@ -147,9 +147,9 @@ while [ $# -gt 0 ]; do
 		exit 1
 	else
 
-	chattr -i /etc/resolv.conf
-	rm /etc/resolv.conf
-	touch /etc/resolv.conf
+	chattr -i /etc/resolv.conf >/dev/null 2>&1
+	rm /etc/resolv.conf >/dev/null 2>&1
+	touch /etc/resolv.conf >/dev/null 2>&1
 
 	echo "nameserver $addr" | tee /etc/resolv.conf >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} New dns address: ${ORANGE}$addr${NC}" || echo -e "\n${RED}[${NC}err${RED}] Could not set dns address${NC}"
 	exit 0
