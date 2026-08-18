@@ -7,7 +7,7 @@
 #                                                                                                              #
 ################################################################################################################
 
-# Colors
+##### Colors #####
 
 RED="\e[1;31m"
 
@@ -25,82 +25,87 @@ LB="\e[36m"
 
 NC="\e[0m"
 
+##### Default Socks5 Address #####
+ADDR=127.0.0.1
+PORT=9150
+
 usage(){
 echo -e "\n${ORANGE}[${BLUE}*${ORANGE}]${GREEN} usage: ${P}neptuner ${NC}<${LB}option${NC}>${NC}"
-echo -e "\n${BLUE}[${YELLOW}1${BLUE}]${ORANGE} -L${BLUE}|${ORANGE}--link ${NC}<${P}link${NC}>${NC}"
-echo -e "\n${BLUE}[${YELLOW}2${BLUE}]${ORANGE} -S${BLUE}|${ORANGE}--socks-addr ${NC}<${P}addr${NC}> <${P}link${NC}>${NC}"
-echo -e "\n${BLUE}[${YELLOW}3${BLUE}]${ORANGE} -C${BLUE}|${ORANGE}--change ${NC}<${P}addr_for_resolv.conf${NC}>${NC}"
+echo -e "\n${BLUE}[${YELLOW}1${BLUE}]${ORANGE} -u${BLUE}|${ORANGE}--url ${NC}<${P}url${NC}>${NC}"
+echo -e "\n${BLUE}[${YELLOW}2${BLUE}]${ORANGE} -a${BLUE}|${ORANGE}--resolv-with-address ${NC}<${P}addr${NC}> <${P}url${NC}>${NC}"
+echo -e "\n${BLUE}[${YELLOW}3${BLUE}]${ORANGE} -s${BLUE}|${ORANGE}--set-dns-address ${NC}<${P}addr${NC}>${NC}"
 }
 
-if ! command -v figlet >/dev/null 2>&1; then
+logos=figlet
+
+if ! command -v $logos >/dev/null 2>&1; then
         if [[ $(command -v apt) ]]; then
-                if ! apt install -y figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! apt install -y $logos; then
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}$logos${NC}"
                 exit 1
                 fi
         elif [[ $(command -v pacman) ]]; then
-                if ! pacman -Sy --noconfirm --needed --overwrite "*" figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! pacman -Sy --noconfirm --needed --overwrite "*" $logos; then
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}$logos${NC}"
                 exit 1
                 fi
         elif [[ $(command -v dnf) ]]; then
-                if ! dnf install -y --allowerasing figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! dnf install -y --allowerasing $logos; then
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}$logos${NC}"
                 exit 1
                 fi
         elif [[ $(command -v yum) ]]; then
-                if ! yum install -y figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! yum install -y $logos; then
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}$logos${NC}"
                 exit 1
                 fi
         elif [[ $(command -v xbps-install) ]]; then
-                if ! xbps-install -Sy -f -y "*" figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! xbps-install -Sy -f -y "*" $logos; then
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}$logos${NC}"
                 exit 1
                 fi
         elif [[ $(command -v zypper) ]]; then
-                if ! zypper install figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! zypper install $logos; then
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}$logos${NC}"
                 exit 1
                 fi
         elif [[ $(command -v apk) ]]; then
-                if ! apk add --no-cache figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! apk add --no-cache $logos; then
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}$logos${NC}"
                 exit 1
                 fi
         elif [[ $(command -v emerge) ]]; then
-                if ! emerge -v --oneshot --keep-going figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! emerge -v --oneshot --keep-going $logos; then
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}$logos${NC}"
                 exit 1
                 fi
         else
-                echo -e "\n${RED}[${NC}-${RED}]${NC} Not common: ${RED}Unsuported pkg manager, please install: ${ORANGE}'figlet'${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Unsuported package manager, install: ${ORANGE}'$logos'${NC}"
                 exit 1
         fi
 fi
 
 
 echo -e "${P}" && figlet neptuner
-echo -n -e "${ORANGE}v1.0.0.2 ${LB}-->${P} neptune's DNS resolution Tool${NC}"
+echo -n -e "${ORANGE}v2.0.0 ${LB}-->${P} Anonymous DNS Util${NC}"
 echo -e "\n"
-echo -e "${ORANGE}[${YELLOW}*${ORANGE}] ${GREEN}Coded By: ${ORANGE}gmasterone@duck.com${NC}"
+echo -e "${ORANGE}[${YELLOW}*${ORANGE}] ${GREEN}Coded By: ${ORANGE}archnon@protonmail.com${NC}"
 
 while [ $# -gt 0 ]; do
         case $1 in
-        -L|--link)
+        -u|-url|--url)
         mode=1
-        link=$2
+        url=$2
 
         if [ -z $link ]; then
-            echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}Missing link argument${NC}"
-            echo -e "\n${ORANGE}[${YELLOW}!${ORANGE}]${NC} usage: ${LB}neptuner ${P}-L ${YELLOW}<${NC}link${YELLOW}>${NC}"
+            echo -e "\n${RED}[${NC}-${RED}] Missing an url${NC}"
+            echo -e "\n${ORANGE}[${YELLOW}!${ORANGE}]${NC} usage: ${LB}neptuner ${P}--url ${YELLOW}<${NC}url${YELLOW}>${NC}"
             exit 1
         else
-            SOCKS5=127.0.0.1:9150
-            echo -e "\n${LB}[${YELLOW}*${LB}]${BLUE} SOCKS5 Address: ${ORANGE}127.0.0.1${GREEN}:${YELLOW}9150${NC}"
-            echo -e "\n${BLUE}[${YELLOW}!${BLUE}]${LB} Trying ${P}"$link"${NC}"
-            curl --socks5-hostname $SOCKS5 "$link" && echo -e "\n${BLUE}[${ORANGE}+${BLUE}]${GREEN} Address Resolved${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not resolv: ${YELLOW}"$link"${NC}"
-            exit 0
+            SOCKS5=$ADDR:$PORT
+            echo -e "\n${LB}[${YELLOW}*${LB}]${BLUE} Default Address: ${ORANGE}$ADDR${GREEN}:${YELLOW}$PORT${NC}"
+            curl -s --socks5-hostname $SOCKS5 "$url" && echo -e "${NC}" || echo -e "\n${RED}[${NC}err${RED}] Could not resolv: ${YELLOW}"$url"${NC}"
+            return $?
         fi
 
         shift
@@ -108,21 +113,19 @@ while [ $# -gt 0 ]; do
 
         ;;
 
-        -S|--socks-addr)
+        -a|-resolv-with-address|--resolv-with-address)
         mode=2
-        ADDR=$2
-        link=$3
+        NEW_ADDR=$2
+        url=$3
 
-        if [[ -z $ADDR || -z $link ]]; then
-            echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}Missing values${NC}"
-            echo -e "\n${ORANGE}[${BLUE}!${ORANGE}]${NC} usage: ${LB}neptuner ${P}--socks-addr ${NC}<${BLUE}addr${NC}> <${BLUE}link${NC}>${NC}"
+        if [[ -z $NEW_ADDR || -z $url ]]; then
+            echo -e "\n${RED}[${NC}-${RED}] Missing url or address${NC}"
+            echo -e "\n${ORANGE}[${BLUE}!${ORANGE}]${NC} usage: ${LB}neptuner ${P}--resolv-with-address ${NC}<${BLUE}addr${NC}> <${BLUE}url${NC}>${NC}"
             exit 1
         else
-           SOCKS5="$ADDR"
-           echo -e "\n${LB}[${YELLOW}*${LB}]${BLUE} SOCKS5 Address: ${ORANGE}$ADDR${NC}"
-           echo -e "\n${BLUE}[${YELLOW}!${BLUE}]${LB} Trying ${P}"$link"${NC}"
-           curl --socks5-hostname $SOCKS5 "$link" && echo -e "\n${BLUE}[${ORANGE}+${BLUE}]${GREEN} Address Resolved${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not resolv: ${YELLOW}"$link"${NC}"
-           exit 0
+           SOCKS5="$NEW_ADDR"
+           curl --socks5-hostname $SOCKS5 "$url" && exit 0 || echo -e "\n${RED}[${NC}-${RED}] Could not resolv: ${YELLOW}"$url"${NC}"
+           return $?
         fi
 
         shift
@@ -130,18 +133,17 @@ while [ $# -gt 0 ]; do
 
         ;;
 	
-	-C|--change)
+	-s|-set-dns-address|--set-dns-address)
 	mode=3
 	addr=$2
 
 	if ! [ -f /etc/resolv.conf ]; then
-		echo -e "\n${RED}[${NC}err${RED}]${NC} Not common: ${ORANGE}'/etc/resolv.conf', ${RED}no such file !${NC}"
-		exit 1
+		touch /etc/resolv.conf >/dev/null 2>&1
 	fi
 
 	if [ -z $addr ]; then
-		echo -e "\n${RED}[${NC}err${RED}]${NC} Bad usage: ${RED}Missing Addr${NC}"
-		echo -e "\n${RED}[${ORANGE}warn${RED}]${NC} usage: ${GREEN}sudo neptunec ${NC}<${P}addr${NC}>"
+		echo -e "\n${RED}[${NC}err${RED}] ${RED}Missing the address to set${NC}"
+		echo -e "\n${RED}[${ORANGE}warn${RED}]${NC} usage: ${GREEN}neptuner ${LB}--set-dns-address ${NC}<${P}addr${NC}>"
 		exit 1
 	else
 
@@ -149,7 +151,7 @@ while [ $# -gt 0 ]; do
 	rm /etc/resolv.conf
 	touch /etc/resolv.conf
 
-	echo -e "# <--- Generated By neptune for system DNS --->#\nnameserver $addr" | tee /etc/resolv.conf >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} Now DNS Points to: ${ORANGE}$addr${NC}" || echo -e "\n${RED}[${NC}err${RED}]${NC} unknown: ${RED} Could not change DNS !${NC}"
+	echo "nameserver $addr" | tee /etc/resolv.conf >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} New dns address: ${ORANGE}$addr${NC}" || echo -e "\n${RED}[${NC}err${RED}] Could not set dns address${NC}"
 	exit 0
 
 	fi
@@ -158,28 +160,28 @@ while [ $# -gt 0 ]; do
 	break
 	;;
 
-        --help|-help|help)
-        mode=4
+    -h|--help|-help|help)
+    mode=4
 
-        usage
-        exit 1
+    usage
+    exit 1
 
-        shift
-        break
+    shift
+    break
 
-        ;;
+    ;;
 
-        --*|-*|*)
-        mode=4
-        usage
+    --*|-*|*)
+    mode=4
 
-        echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}unknown option: ${YELLOW}'$1'${NC}"
+    echo -e "\n${RED}[${NC}-${RED}] invalid option: ${YELLOW}'$1'${NC}"
+    echo -e "\n${ORANGE}[${YELLOW}warn${ORANGE}]${NC} Try: ${LB}'$0 --help'${NC}"
 
-        shift
-        break
-        exit 1
+    shift
+    break
+    exit 1
 
-        ;;
+    ;;
 
 esac
 done
