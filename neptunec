@@ -81,7 +81,7 @@ fi
 echo -e "${RED}" && figlet neptunec
 echo -n -e "${YELLOW}v1.0.0.2 ${LB}--> ${RED}neptune's Config Manager${NC}"
 echo -e "\n"
-echo -e "\n${BLUE}[${GREEN}*${BLUE}] ${GREEN}Developed By: ${ORANGE}s0meonex${P}@protonmail.com${NC}"
+echo -e "\n${BLUE}[${GREEN}*${BLUE}] ${GREEN}Developed By: ${ORANGE}archnon${P}@protonmail.com${NC}"
 
 
 # Bind Addr
