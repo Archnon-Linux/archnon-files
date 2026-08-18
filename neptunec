@@ -278,7 +278,7 @@ elif [ "$object" == "dns" ]; then
            echo -e "\n${RED}[${NC}-${RED}] There's no dns file${NC}"
            exit 1
       else
-           cat $FWFILE
+           cat $DNS
            exit 0
       fi
 else
