@@ -139,6 +139,8 @@ while [ $# -gt 0 ]; do
 
         touch $TORRC >/dev/null 2>&1
 
+rtorc(){
+
 cat << EOT > $TORRC
 # <--- By neptunec for Torrc ---> #
 # File locked by chattr +i, unlock: sudo chattr -i $TORRC
@@ -161,7 +163,11 @@ ClientRejectInternalAddresses 1
 AvoidDiskWrites 1
 EnforceDistinctSubnets 1
 HardwareAccel 1
-EOT && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} Done, restart Tor to apply${NC}" || echo -e "\n${RED}[${NC}-${RED}] Could not reset: $TORRC${NC}"
+EOT
+
+}
+
+rtorc && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} Done, restart Tor to apply${NC}" || echo -e "\n${RED}[${NC}-${RED}] Could not reset: $TORRC${NC}"
 
 return $?
 
