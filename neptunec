@@ -32,46 +32,46 @@ pkgs=(e2fsprogs figlet)
 if ! (command -v figlet >/dev/null 2>&1 && command -v chattr >/dev/null 2>&1); then
         if [[ $(command -v apt) ]]; then
                 if ! apt install -y ${pkgs[@]}; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v pacman) ]]; then
                 if ! pacman -Sy --noconfirm --needed --overwrite "*" ${pkgs[@]}; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v dnf) ]]; then
                 if ! dnf install -y --allowerasing ${pkgs[@]}; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v yum) ]]; then
-                if ! yum install -y figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! yum install -y ${pkgs[@]}; then
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v xbps-install) ]]; then
                 if ! xbps-install -Sy -f -y "*" ${pkgs[@]}; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v zypper) ]]; then
                 if ! zypper install ${pkgs[@]}; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v apk) ]]; then
                 if ! apk add --no-cache figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v emerge) ]]; then
                 if ! emerge -v --oneshot --keep-going ${pkgs[@]}; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Could not install: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         else
-                echo -e "\n${RED}[${NC}-${RED}]${NC} Not common: ${RED}Unsuported pkg manager, please install: ${ORANGE}'${pkgs[@]}'${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Unsuported package manager, install: ${ORANGE}'${pkgs[@]}'${NC}"
                 exit 1
         fi
 fi
@@ -79,7 +79,7 @@ fi
 # Banner
 
 echo -e "${RED}" && figlet neptunec
-echo -n -e "${YELLOW}v1.0.0.2 ${LB}--> ${RED}neptune's Config Manager${NC}"
+echo -n -e "${YELLOW}v2.0.0 ${LB}--> ${RED}Tor and firewall Manager${NC}"
 echo -e "\n"
 echo -e "\n${BLUE}[${GREEN}*${BLUE}] ${GREEN}Developed By: ${ORANGE}archnon${P}@protonmail.com${NC}"
 
@@ -99,21 +99,21 @@ CONTROL=9151
 HTTP=8181
 
 # Configuration Files
-# Default order: /etc/tor/torrc, /etc/neptune_rules.nft
+# Default: /etc/tor/torrc, /etc/neptune_rules.nft, /etc/resolv.conf
 
 TORRC=/etc/tor/torrc
 FWFILE=/etc/neptune_rules.nft
+DNS=/etc/resolv.conf
 
 # Usage Warn
 
 usage(){
-	echo -e "\n${RED}[${YELLOW}*${RED}]${GREEN} usage: ${P}neptunec ${NC}<${GREEN}action${NC}>${NC}"
-	echo -e "\n${BLUE}[${ORANGE}1${BLUE}]${LB} reset: ${ORANGE}Remplace Torrc with neptune's default${NC}"
-	echo -e "\n${BLUE}[${ORANGE}2${BLUE}]${LB} show: ${ORANGE}Show config files${NC}"
-	echo -e "\n${BLUE}[${ORANGE}3${BLUE}]${LB} firewall: ${ORANGE}Show ${RED}Firewall rules.${NC}"
-	echo -e "\n${BLUE}[${ORANGE}4${BLUE}]${LB} load-torrc: ${ORANGE}Load ${P}custom Torrc${NC}"
-	echo -e "\n${BLUE}[${ORANGE}5${BLUE}]${LB} bridges: ${ORANGE}Load ${P}custom Bridges based Torrc${NC}"
-	echo -e "\n${BLUE}[${ORANGE}6${BLUE}]${LB} update: ${ORANGE}Get latest version of${P} neptune${NC}"
+	echo -e "\n${RED}[${YELLOW}*${RED}]${GREEN} usage: ${P}$0 ${NC}<${GREEN}COMMAND${NC}> <${P}OPTIONS${NC}>${NC}"
+	echo -e "\n${BLUE}[${ORANGE}1${BLUE}]${LB} -r${BLUE}|${LB}-torrc-reset${BLUE}|${LB}--torrc-reset: ${ORANGE}apply default template for torrc${NC}"
+	echo -e "\n${BLUE}[${ORANGE}2${BLUE}]${LB} -p${BLUE}|${LB}-print${BLUE}|${LB}--print ${NC}<${P}arg${NC}>: ${ORANGE}show some object or file${NC}"
+	echo -e "\n${BLUE}[${ORANGE}4${BLUE}]${LB} -f${BLUE}|${LB}-load-torrc${BLUE}|${LB}--load-torrc ${NC}<${P}arg${NC}>: ${ORANGE}Load ${P}custom Torrc${NC}"
+	echo -e "\n${BLUE}[${ORANGE}5${BLUE}]${LB} -b${BLUE}|${LB}-load-bridges${BLUE}|${LB}--load-bridges: ${ORANGE}Load ${P}custom Bridges for Torrc${NC}"
+	echo -e "\n${BLUE}[${ORANGE}6${BLUE}]${LB} -u${BLUE}|${LB}-update-project${BLUE}|${LB}--update-project: ${ORANGE}update ${P}neptune ${ORANGE}via git${NC}"
 }
 
 # modes "$1"
@@ -121,13 +121,18 @@ usage(){
 while [ $# -gt 0 ]; do
        case $1 in
 
-       reset)
+       -r|-torrc-reset|--torrc-reset)
        mode=10
 
        if [ $EUID -ne 0 ]; then
-           echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+           echo -e "\n${RED}[${NC}-${RED}] Run as root${NC}"
            exit 1
        fi
+
+        if ! [ -f $TORRC ]; then
+              echo -e "\n${RED}[${NC}-${RED}] There's no torrc to reset${NC}"
+              exit 1
+        fi
 
         chattr -i $TORRC >/dev/null 2>&1
         rm $TORRC >/dev/null 2>&1
@@ -156,34 +161,32 @@ ClientRejectInternalAddresses 1
 AvoidDiskWrites 1
 EnforceDistinctSubnets 1
 HardwareAccel 1
-EOT
+EOT && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} Done, restart Tor to apply${NC}" || echo -e "\n${RED}[${NC}-${RED}] Could not reset: $TORRC${NC}"
 
-        chattr +i $TORRC
+return $?
 
-	echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} Done, restart neptune to apply${NC}"
-
-        shift
-        break
+shift
+break
 ;;
 
-load-torrc)
+-f|-load-torrc|--load-torrc)
 mode=11
 
 if [ $EUID -ne 0 ]; then
-    echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+    echo -e "\n${RED}[${NC}-${RED}] Run as root${NC}"
     exit 1
 fi
 
 file=$2
 
 if [ -z $file ]; then
-    echo -e "\n${RED}[${NC}err${RED}]${NC} Bad usage: ${RED}Missing file${NC}"
-    echo -e "\n${BLUE}[${NC}warn${BLUE}]${ORANGE} usage: ${BLUE}sudo neptunec load-torrc ${YELLOW}<${NC}file${YELLOW}>${NC}"
+    echo -e "\n${RED}[${NC}-${RED}] Missing a file${NC}"
+    echo -e "\n${BLUE}[${NC}warn${BLUE}]${ORANGE} usage: ${LB}$0 ${BLUE}--load-torrc ${YELLOW}<${NC}file${YELLOW}>${NC}"
     exit 1
 fi
 
-if [ ! -f $file ]; then
-    echo -e "\n${RED}[${NC}err${RED}]${NC} Bad usage: ${YELLOW}"$2"${NC}, ${RED}NO SUCH FILE${NC}"
+if ! [ -f $file ]; then
+    echo -e "\n${RED}[${NC}err${RED}] No such file: ${YELLOW}"$2"${NC}"
     exit 1
 fi
 
@@ -197,11 +200,11 @@ if [ -f $TORRC ]; then
 
     echo -e "\n# NOT TOUCH, THIS FILE IS CUSTOM LOAD #" >> $TORRC
 
-    # Sorry but changing Tor prots without touching script may break its firewall logic #
+    # Sorry but changing Tor ports without touching script may break the firewall logic #
 
     echo -e "\n# Do NOT change Tor ports, it may break script's firewall logic !! #\nTransPort $ADDR:$TRANS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nDNSPort $ADDR:$DNS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nSocksPort $ADDR:$SOCKS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nControlPort $ADDR:$CONTROL\nHTTPTunnelPort $ADDR:$HTTP" >> $TORRC
 
-    cat "$file" >> $TORRC && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} Config was applied${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} Could apply config${NC}"
+    cat "$file" >> $TORRC && echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} New Torrc applied${NC}" || echo -e "\n${RED}[${NC}-${RED}] Could not apply this Torrc${NC}"
     chattr +i $TORRC >/dev/null 2>&1
 
     if id debian-tor >/dev/null 2>&1; then
@@ -214,17 +217,17 @@ if [ -f $TORRC ]; then
         export TOR_USER=$(id 0)
     fi
 
-    chwon -R $TOR_USER:$TOR_USER $TORRC >/dev/null 2>&1
+    chown -R $TOR_USER:$TOR_USER $TORRC >/dev/null 2>&1
 
     if tor --verify-config >/dev/null 2>&1; then
-        echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} Config is valid, ${LB}restart neptune to see the changes${NC}"
+        echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} Valid Torrc, you can restart Tor${NC}"
         exit 0
     else
-        echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}config is not valid${NC}"
+        echo -e "\n${RED}[${NC}-${RED}] Invalid Torrc${NC}"
         exit 1
     fi
 else
-        echo -e "\n${RED}[${NC}err${RED}]${NC} Bad usage: ${RED}no such file: ${YELLOW}'$2'${NC}"
+        echo -e "\n${RED}[${NC}-${RED}] No such file: ${YELLOW}'$TORRC'${NC}"
         exit 1
 fi
 
@@ -232,44 +235,49 @@ shift
 break
 ;;
 
-firewall)
+-p|-print|--print)
 
 mode=12
+object=$2
 
-if [ $EUID -ne 0 ]; then
-    echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
-    exit 1
+if [[ -z $object ]]; then
+      echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}$0 ${P}--print ${NC}<${BLUE}object${NC}>"
+      echo -e "\n${ORANGE}[${YELLOW}warn${ORANGE}]${NC} Objects are:"
+      echo -e "\n${LB}firewall${NC}: ${BLUE}(${GREEN}$FWFILE${BLUE})${NC}"
+      echo -e "\n${LB}torrc${NC}: ${BLUE}(${GREEN}$TORRC${BLUE})${NC}"
+      echo -e "\n${LB}dns${NC}: ${BLUE}(${GREEN}$DNS${BLUE})${NC}"
+      exit 1
 fi
 
-if ! [ -f $FWFILE ]; then
-        echo -e "\n${RED}[${NC}err${RED}]${NC} Not such file: ${ORANGE}'$FWFILE', ${RED}Ensure you ran neptune at least one time !${NC}"
-        exit 1
-fi
+if [ "$object" == "firewall" ]; then
+    if ! [ -f $FWFILE ]; then
+           echo -e "\n${RED}[${NC}-${RED}] There's no firewall file${NC}"
+           exit 1
+    else
+           cat $FWFILE
+           return $?
+    fi
 
-if [ -f $FWFILE ]; then
-    cat $FWFILE
-    nft list ruleset
-fi
+elif [ "$object" == "torrc" ]; then
+      if ! [ -f $TORRC ]; then
+           echo -e "\n${RED}[${NC}-${RED}] There's no Torrc${NC}"
+           exit 1
+      else
+           cat $TORRC
+           return $?
+      fi
 
-shift
-break
-
-;;
-
-show)
-mode=7
-
-if [ -f $TORRC ] && [ -f /etc/resolv.conf ]; then
-        
-	echo -e "\n${BLUE}[${GREEN}notice${BLUE}] ${BLUE}(${YELLOW}$TORRC${BLUE})${NC}:"
-        cat $TORRC
-		
-	echo -e "\n${BLUE}[${GREEN}notice${BLUE}] ${RED}(${ORANGE}/etc/resolv.conf${RED})${NC}:"
-        cat /etc/resolv.conf
-        exit 0
+elif [ "$object" == "dns" ]; then
+      if ! [ -f $DNS ]; then
+           echo -e "\n${RED}[${NC}-${RED}] There's no dns file${NC}"
+           exit 1
+      else
+           cat $FWFILE
+           return $?
+      fi
 else
-        echo -e "\n${RED}[${NC}err${RED}]${RED} No such file: ${BLUE}(${ORANGE}$TORRC ${RED}or ${ORANGE}/etc/resolv.conf${BLUE})${NC}"
-        exit 1
+   echo -e "\n${RED}[${NC}-${RED}] Invalid object: ${ORANGE}$object${NC}"
+   exit 1
 fi
 
 shift
@@ -277,12 +285,18 @@ break
 
 ;;
 
-bridges)
+-b|-load-bridges|--load-bridges)
 mode=7
 
 if [ $EUID -ne 0 ]; then
-    echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+    echo -e "\n${RED}[${NC}-${RED}] Run as root${NC}"
     exit 1
+fi
+
+if ! [ -f $TORRC ]; then
+      echo -e "\n${RED}[${NC}-${RED}] There's not a Torrc${NC}"
+      echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} current: ${LB}$TORRC${NC}"
+      exit 1
 fi
 
 file=$2
@@ -293,11 +307,14 @@ chattr -i $TORRC >/dev/null 2>&1
 rm $TORRC >/dev/null 2>&1
 touch $TORRC >/dev/null 2>&1
 
-if [[ -z "$file" || ! -f "$file" || -z "$kind" || ! "$bin" || -z "$bin" ]]; then
-    echo -e "\n${ORANGE}[${NC}*${ORANGE}]${P} usage: ${GREEN}sudo neptunec bridges ${BLUE}<${NC}file${BLUE}> ${BLUE}<${NC}kind${BLUE}> ${BLUE}<${NC}bin${BLUE}>${NC}"
-    echo -e "\n${ORANGE}[${NC}*${ORANGE}]${P} Ex: ${GREEN}sudo neptunec bridges ${LB}bridges.txt ${LB}obfs4 ${LB}/usr/bin/obfs4proxy${NC}"
-    echo -e "\n${BLUE}[${GREEN}*${BLUE}]${GREEN} File ${RED}should ONLY contain the bridges in this format: ${NC}<${YELLOW}'bridge'${NC}> ${YELLOW}<${NC}type${YELLOW}> [${NC}IP${YELLOW}]${GREEN}:${YELLOW}[${NC}PORT${YELLOW}] [${NC}fingerprint${YELLOW}] [${NC}Key=value${YELLOW}]${NC}"
+if [[ -z "$file" || -z $bin || -z $kind ]]; then
+    echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}$0 ${BLUE}--load-bridges ${YELLOW}<${NC}file${YELLOW}> ${YELLOW}<${NC}kind${YELLOW}> ${YELLOW}<${NC}bin${YELLOW}>${NC}"
+    echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} example: ${LB}$0 ${BLUE}--load-bridges ${P}bridges.txt ${P}obfs4 ${P}/usr/bin/obfs4proxy${NC}"
+    echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} correct format for bridges: ${NC}<${YELLOW}'bridge'${NC}> ${YELLOW}<${NC}type${YELLOW}> [${NC}IP${YELLOW}]${GREEN}:${YELLOW}[${NC}PORT${YELLOW}] [${NC}fingerprint${YELLOW}] [${NC}Key=value${YELLOW}]${NC}"
     exit 1
+elif ! [[ -f $file || -f $bin ]]; then
+        echo -e "\n${RED}[${NC}-${RED}] No such bin or file${NC}"
+        exit 1
 fi
 
 bridges=$(cat "$file")
@@ -305,13 +322,13 @@ bridges=$(cat "$file")
 echo -e "\n# <--- Generated by neptune ---> #\n# Bridges Configuration #\n# NOT TOUCH, THIS FILE IS CUSTOM LOAD #\n# File locked by chattr +i, unlock: sudo chattr -i $TORRC #\nCookieAuthentication 0\nVirtualAddrNetworkIPv4 10.192.0.0/10\nAutomapHostsOnResolve 1\nMaxCircuitDirtiness 60\nAutomapHostsSuffixes .exit,.onion\nTransPort $ADDR:$TRANS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nDNSPort $ADDR:$DNS\nControlPort $ADDR:$CONTROL\nSocksPort $ADDR:$SOCKS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nHTTPTunnelPort $ADDR:$HTTP\nClientTransportPlugin $kind exec $bin\n$bridges\nUseBridges 1\nClientUseIPv6 0\nClientPreferIPv6ORPORT 0\nClientRejectInternalAddresses 1\nHardwareAccel 1\nEnforceDistinctSubnets 1\nAvoidDiskWrites 1\n" | tee $TORRC >/dev/null 2>&1
 
 if tor --verify-config >/dev/null 2>&1; then
-   echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} Valid config, restart neptune to see changes${NC}"
+   echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} Valid Torrc, you can restart Tor${NC}"
    chown -R $TOR_USER:$TOR_USER $TORRC
    chown -R $TOR_USER:$TOR_USER /var/lib/tor
    chattr +i $TORRC >/dev/null 2>&1
    exit 0
 else
-   echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}Invalid Torrc${NC}, ${ORANGE}Try${NC}: ${P}'neptunec reset'${NC}"
+   echo -e "\n${RED}[${NC}-${RED}] Invalid Torrc${NC}"
    exit 1
 fi
 
@@ -320,7 +337,7 @@ break
 
 ;;
 
-update)
+-u|-update-project|--update-project)
 mode=11
 
 if [ $EUID -ne 0 ]; then
@@ -328,13 +345,20 @@ if [ $EUID -ne 0 ]; then
 	exit 1
 fi
 
-echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating neptune..${NC}"
+cmd=git
+
+if ! (command -v $cmd >/dev/null 2>&1); then
+echo -e "\n${RED}[${NC}-${RED}] Install: ${ORANGE}'$cmd'${NC}"
+   exit 1
+fi
+
+echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating project..${NC}"
 
 if git clone https://github.com/sleuth3301/archnon-files && cd archnon-files && chmod +x * && ./make_it_work; then
-	echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} neptune was updated !${NC}"
+	echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} project updates${NC}"
 	exit 0
 else
-	echo -e "\n${RED}[${NC}err${RED}]${NC} Could not update neptune${NC}"
+	echo -e "\n${RED}[${NC}-${RED}]${NC} Could not update project${NC}"
 	exit 1
 fi
 
@@ -343,7 +367,7 @@ break
 
 ;;
 
---help|-help|help)
+-h|--help|-help|help)
 mode=12
 
 usage
@@ -358,7 +382,8 @@ break
 mode=6
 
 usage
-echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}unknown action: ${YELLOW}'$1'${NC}"
+echo -e "\n${RED}[${NC}-${RED}] Invalid option: ${YELLOW}'$1'${NC}"
+echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} Try: '${LB}$0 ${BLUE}--help${ORANGE}'${NC}"
 
 shift
 break
