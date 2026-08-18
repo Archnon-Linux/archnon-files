@@ -261,7 +261,7 @@ if [ "$object" == "firewall" ]; then
            exit 1
     else
            cat $FWFILE
-           return $?
+           exit 0
     fi
 
 elif [ "$object" == "torrc" ]; then
@@ -270,7 +270,7 @@ elif [ "$object" == "torrc" ]; then
            exit 1
       else
            cat $TORRC
-           return $?
+           exit 0
       fi
 
 elif [ "$object" == "dns" ]; then
@@ -279,7 +279,7 @@ elif [ "$object" == "dns" ]; then
            exit 1
       else
            cat $FWFILE
-           return $?
+           exit 0
       fi
 else
    echo -e "\n${RED}[${NC}-${RED}] Invalid object: ${ORANGE}$object${NC}"
@@ -361,7 +361,7 @@ fi
 echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating project..${NC}"
 
 if git clone https://github.com/sleuth3301/archnon-files && cd archnon-files && chmod +x * && ./make_it_work; then
-	echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} project updates${NC}"
+	echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} project updated${NC}"
 	exit 0
 else
 	echo -e "\n${RED}[${NC}-${RED}]${NC} Could not update project${NC}"
@@ -387,7 +387,6 @@ break
 --*|-*|*)
 mode=6
 
-usage
 echo -e "\n${RED}[${NC}-${RED}] Invalid option: ${YELLOW}'$1'${NC}"
 echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} Try: '${LB}$0 ${BLUE}--help${ORANGE}'${NC}"
 
