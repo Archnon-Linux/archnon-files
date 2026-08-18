@@ -330,7 +330,7 @@ fi
 
 echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating neptune..${NC}"
 
-if git clone https://github.com/Archnon-Linux/archnon-files && cd archnon-files && chmod +x * && ./make_it_work; then
+if git clone https://github.com/sleuth3301/archnon-files && cd archnon-files && chmod +x * && ./make_it_work; then
 	echo -e "\n${BLUE}[${GREEN}notice${BLUE}]${GREEN} neptune was updated !${NC}"
 	exit 0
 else
