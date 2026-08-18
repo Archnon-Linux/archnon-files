@@ -99,13 +99,13 @@ while [ $# -gt 0 ]; do
 
         if [ -z $url ]; then
             echo -e "\n${RED}[${NC}-${RED}] Missing an url${NC}"
-            echo -e "\n${ORANGE}[${YELLOW}!${ORANGE}]${NC} usage: ${LB}neptuner ${P}--url ${YELLOW}<${NC}url${YELLOW}>${NC}"
+            echo -e "\n${ORANGE}[${YELLOW}!${ORANGE}]${NC} usage: ${LB}$0 ${P}--url ${YELLOW}<${NC}url${YELLOW}>${NC}"
             exit 1
         else
             SOCKS5=$ADDR:$PORT
             echo -e "\n${LB}[${YELLOW}*${LB}]${BLUE} Default Address: ${ORANGE}$ADDR${GREEN}:${YELLOW}$PORT${NC}"
             curl -s --socks5-hostname $SOCKS5 "$url" && echo -e "${NC}" || echo -e "\n${RED}[${NC}err${RED}] Could not resolv: ${YELLOW}"$url"${NC}"
-            return $?
+            exit 0
         fi
 
         shift
@@ -120,12 +120,12 @@ while [ $# -gt 0 ]; do
 
         if [[ -z $NEW_ADDR || -z $url ]]; then
             echo -e "\n${RED}[${NC}-${RED}] Missing url or address${NC}"
-            echo -e "\n${ORANGE}[${BLUE}!${ORANGE}]${NC} usage: ${LB}neptuner ${P}--resolv-with-address ${NC}<${BLUE}addr${NC}> <${BLUE}url${NC}>${NC}"
+            echo -e "\n${ORANGE}[${BLUE}!${ORANGE}]${NC} usage: ${LB}$0 ${P}--resolv-with-address ${NC}<${BLUE}addr${NC}> <${BLUE}url${NC}>${NC}"
             exit 1
         else
            SOCKS5="$NEW_ADDR"
-           curl --socks5-hostname $SOCKS5 "$url" && exit 0 || echo -e "\n${RED}[${NC}-${RED}] Could not resolv: ${YELLOW}"$url"${NC}"
-           return $?
+           curl --socks5-hostname $SOCKS5 "$url" && echo -e "${NC}" || echo -e "\n${RED}[${NC}-${RED}] Could not resolv: ${YELLOW}"$url"${NC}"
+           exit 0
         fi
 
         shift
@@ -143,7 +143,7 @@ while [ $# -gt 0 ]; do
 
 	if [ -z $addr ]; then
 		echo -e "\n${RED}[${NC}err${RED}] ${RED}Missing the address to set${NC}"
-		echo -e "\n${RED}[${ORANGE}warn${RED}]${NC} usage: ${GREEN}neptuner ${LB}--set-dns-address ${NC}<${P}addr${NC}>"
+		echo -e "\n${RED}[${ORANGE}warn${RED}]${NC} usage: ${GREEN}$0 ${LB}--set-dns-address ${NC}<${P}addr${NC}>"
 		exit 1
 	else
 
