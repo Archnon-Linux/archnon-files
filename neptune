@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ##################################################################################################################################
-# NEPTUNE - bash based privacy tool.                                                                                             #
+# LazyAnon - bash based privacy tool.                                                                                            #
 # Based in: bash.                                                                                                                #
-# Requires: netcat-openbsd curl tor nftables procps networkmanager iproute2 coreutils util-linux bash sudo figlet e2fsprogs i2pd #
+# Requires: netcat-openbsd curl tor nftables procps networkmanager iproute2 coreutils util-linux bash sudo e2fsprogs i2pd        #
 # Version: 3.0.12.                                                                                                               #
 # Developer is: archnon@protonmail.com, btw.                                                                                     #
 ##################################################################################################################################
@@ -31,11 +31,11 @@ NC="\e[0m"
 # <-- Dependencies --> #
 # Always dynamic #
 
-if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && command -v tor >/dev/null 2>&1 && command -v bash >/dev/null 2>&1 && command -v pkill >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1 && command -v NetworkManager >/dev/null 2>&1 && command -v nft >/dev/null 2>&1 && command -v figlet >/dev/null 2>&1 && command -v chattr >/dev/null 2>&1 && command -v i2pd >/dev/null 2>&1); then
+if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && command -v tor >/dev/null 2>&1 && command -v bash >/dev/null 2>&1 && command -v pkill >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1 && command -v NetworkManager >/dev/null 2>&1 && command -v nft >/dev/null 2>&1 && command -v chattr >/dev/null 2>&1 && command -v i2pd >/dev/null 2>&1); then
 
        if [[ $(command -v apt) ]]; then
 
-           pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo figlet e2fsprogs i2pd)
+           pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo e2fsprogs i2pd)
 
            if ! apt install "${pkgs[@]}" -y; then
                   echo -e "${RED}[${NC}err${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
@@ -45,7 +45,7 @@ if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && comman
 
         elif [[ $(command -v pacman) ]]; then
 
-              pkgs=( openbsd-netcat curl tor nftables procps-ng networkmanager iproute2 coreutils util-linux bash sudo figlet e2fsprogs i2pd)
+              pkgs=( openbsd-netcat curl tor nftables procps-ng networkmanager iproute2 coreutils util-linux bash sudo e2fsprogs i2pd)
 
               if ! pacman -Syy "${pkgs[@]}" --needed --noconfirm --overwrite "*"; then
                         echo -e "${RED}[${NC}err${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
@@ -55,7 +55,7 @@ if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && comman
 
         elif [[ $(command -v dnf) ]]; then
 
-              pkgs=( epel-release nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo figlet e2fsprogs i2pd)
+              pkgs=( epel-release nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo e2fsprogs i2pd)
 
               if ! dnf -y install --allowerasing "${pkgs[@]}"; then
                      echo -e "${RED}[${NC}err${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
@@ -65,7 +65,7 @@ if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && comman
 
         elif [[ $(command -v yum) ]]; then
 
-              pkgs=( nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo figlet e2fsprogs i2pd)
+              pkgs=( nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo e2fsprogs i2pd)
 
               if ! yum -y install "${pkgs[@]}"; then
                      echo -e "${RED}[${NC}err${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
@@ -75,7 +75,7 @@ if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && comman
 
         elif [[ $(command -v zypper) ]]; then
 
-              pkgs=( nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo figlet e2fsprogs i2pd)
+              pkgs=( nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo e2fsprogs i2pd)
 
               if ! zypper install "${pkgs[@]}"; then
                      echo -e "${RED}[${NC}err${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
@@ -85,7 +85,7 @@ if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && comman
 
         elif [[ $(command -v apk) ]]; then
 
-              pkgs=( netcat-openbsd curl tor nftables procps networkmanager iproute2 coreutils util-linux bash sudo figlet e2fsprogs i2pd)
+              pkgs=( netcat-openbsd curl tor nftables procps networkmanager iproute2 coreutils util-linux bash sudo e2fsprogs i2pd)
 
               if ! apk add --no-cache "${pkgs[@]}"; then
                      echo -e "${RED}[${NC}err${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
@@ -95,7 +95,7 @@ if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && comman
 
         elif [[ $(command -v xbps-install) ]]; then
 
-              pkgs=( openbsd-netcat curl tor iproute2 coreutils util-linux bash nftables sudo procps-ng NetworkManager figlet e2fsprogs i2pd)
+              pkgs=( openbsd-netcat curl tor iproute2 coreutils util-linux bash nftables sudo procps-ng NetworkManager e2fsprogs i2pd)
 
               if ! xbps-install -Sy -f -y "*" "${pkgs[@]}"; then
                      echo -e "${RED}[${NC}err${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
@@ -104,7 +104,7 @@ if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && comman
                   wait
         elif [[ $(command -v emerge) ]]; then
 
-              pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo figlet e2fsprogs i2pd)
+              pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo e2fsprogs i2pd)
 
               if ! emerge -v --oneshot --keep-going ${pkgs[@]}; then
                     echo -e "${RED}[${NC}err${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
@@ -112,7 +112,7 @@ if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && comman
               fi
               wait
         else
-              pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo figlet e2fsprogs i2pd)
+              pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo e2fsprogs i2pd)
               echo -e "${RED}[${NC}err${RED}]${WHITE} Missing dependencies !!${NC}"
               echo -e "${RED}[${NC}err${RED}]${WHITE} Not common: ${RED}unsuported pkg manager${LB}, please, install: ${BLUE}(${LB}${pkgs[@]}${BLUE})${NC}"
               exit 1
@@ -120,10 +120,18 @@ if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && comman
 fi
 
 # <-- Banner --> #
-# Here, so it checks dependencies first #
 
-echo -e "${LB}" && figlet neptune
-echo -n -e "${BLUE}[*]${ORANGE} Portable Bash Anonymation Tool${NC}"
+W="\e[1;37m"
+P="\e[1;35m"
+N="\e[0m"
+B="\e[1;34m"
+
+echo -e "${W}▖        ${P}▄▖         ${B}  ";
+echo -e "${W}▌ ▀▌▀▌▌▌ ${P}▌▌▛▌▛▌▛▌  ${B}▖▌▌";
+echo -e "${W}▙▖█▌▙▖▙▌ ${P}▛▌▌▌▙▌▌▌  ${B}▖▚▘";
+echo -e "${W}      ▄▌ ${P}            ${B}";
+echo -e "\n${N}"
+echo -n -e "${BLUE}[${LB}notice]${ORANGE} Portable Bash Anonymation Tool ${P}for lazy ppl${NC}"
 echo -e "\n"
 echo -e "${BLUE}[${GREEN}notice${BLUE}]${WHITE} Developed by: ${LB}archnon${P}@protonmail.com${NC}"
 
