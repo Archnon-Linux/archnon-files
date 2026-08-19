@@ -41,8 +41,8 @@ fi
 
 help_p(){
 	echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${WHITE} usage: ${LB}sudo${GREEN} wifictl${YELLOW} <${NC}option${YELLOW}> <${NC}args${YELLOW}>"
-	echo -e "\n${BLUE}[${GREEN}1${BLUE}]${WHITE} --connect|-C: ${YELLOW}<${NC}ssid${YELLOW}> <${NC}passwd${YELLOW}> <${NC}ifname${YELLOW}>${NC}"
-	echo -e "\n${BLUE}[${GREEN}2${BLUE}]${WHITE} --delete-connection|-W: ${YELLOW}<${NC}conection_name${YELLOW}>${NC}"
+	echo -e "\n${BLUE}[${GREEN}1${BLUE}]${WHITE} --connect|-c: ${YELLOW}<${NC}ssid${YELLOW}> <${NC}passwd${YELLOW}> <${NC}ifname${YELLOW}>${NC}"
+	echo -e "\n${BLUE}[${GREEN}2${BLUE}]${WHITE} --delete-connection|-w: ${YELLOW}<${NC}conection_name${YELLOW}>${NC}"
 	echo -e "\n${BLUE}[${GREEN}3${BLUE}]${WHITE} --list|-l: ${YELLOW}<${NC}object${YELLOW}> ${BLUE}(${LB}wifi/created${BLUE})${NC}"
 	echo -e "\n${BLUE}[${GREEN}4${BLUE}]${WHITE} --help|-help|help|-h: Print manual${NC}"
 }
@@ -55,7 +55,7 @@ delete_c(){
 
 	if [[ -z $connection ]]; then
 	    echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Bad usage: missing connection name${NC}"
-	    echo -e "\n${P}[${YELLOW}warn${P}]${WHITE} usage: ${GREEN}wifictl ${ORANGE}--delete-connection ${YELLOW}<${NC}connection${YELLOW}>${NC}"
+	    echo -e "\n${P}[${YELLOW}warn${P}]${WHITE} usage: ${GREEN}$0 ${ORANGE}--delete-connection ${YELLOW}<${NC}connection${YELLOW}>${NC}"
 	    exit 1
 	else
 	    nmcli connection delete $connection >/dev/null 2>&1 && echo -e "\n${GREEN}[${WHITE}notice${GREEN}]${WHITE} Connection: ${ORANGE}'$connection'${WHITE} was deleted${NC}" || echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Could not delete connection: ${ORANGE}'$connection'${NC}"
@@ -69,7 +69,7 @@ delete_c(){
 
 while [ $# -gt 0 ]; do
 	case $1 in
-	--connect|-C)
+	--connect|-c)
 	mode=1
 
 	ssid=$2
@@ -92,7 +92,7 @@ while [ $# -gt 0 ]; do
 	break
 	;;
 
-	--delete-connection|-W)
+	--delete-connection|-w)
 	mode=2
 
 	connection=$2
@@ -139,8 +139,8 @@ while [ $# -gt 0 ]; do
 	else
 		echo -e "\n${RED}[${WHITE}err${RED}]${WHITE} Invalid option ${ORANGE}'$target'${NC}"
 		echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${WHITE} Valid Options are: ${NC}"
-		echo -e "\n1. created: ${WHITE}Shows system's established connections${NC}"
-		echo -e "\n2. wifi: ${WHITE}Shows available Access Points via dev scanning${NC}"
+		echo -e "\n${LB}created: ${WHITE}Show existing connections with APs${NC}"
+		echo -e "\n${LB}wifi: ${WHITE}Shows available Access Points to connect${NC}"
 		exit 1
 	fi
 
