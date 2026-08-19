@@ -1,4 +1,4 @@
 #!/bin/bash
 
 sudo chmod +x * && sudo mv neptune* mac* wifictl* setup* nkill* /usr/local/bin && neptune && mactool
-echo -e "\n$0 $1: now you can run any of the tools normally"
+echo -e "\n$0: now you can run any of the tools normally"
