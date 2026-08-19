@@ -26,19 +26,23 @@ NC="\e[0m"
 ### usage ###
 #############
 
+##### usage: setup-archnon <COMMAND> #####
+
 usage(){
-	echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}$0 ${BLUE}<${WHITE}type${BLUE}>${NC}"
-	echo -e "\n${ORANGE}[${WHITE}1${ORANGE}]${P} --minimal: ${WHITE}Install the most basic version of ${GREEN}Archnon ${BLUE}(${LB}tty, shell, neptune${BLUE})${NC}"
-	echo -e "\n${ORANGE}[${WHITE}2${ORANGE}]${P} --desktop: ${WHITE}Install ${GREEN}Archnon ${WHITE}with a desktop environment${NC}"
-	echo -e "\n${ORANGE}[${WHITE}3${ORANGE}]${P} --others: ${WHITE}Show an entire list of posible setups for${GREEN} Archnon${NC}"
-	echo -e "\n${ORANGE}[${WHITE}4${ORANGE}]${P} --help: ${WHITE}Prints this help page${NC}"
+	echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}$0 ${BLUE}<${WHITE}COMMAND${BLUE}>${NC}"
+	echo -e "\n${ORANGE}[${WHITE}1${ORANGE}]${P} --minimal${BLUE}|${P}-m: ${WHITE}Install the most basic version of ${GREEN}Archnon ${BLUE}(${LB}tty, shell, neptune${BLUE})${NC}"
+	echo -e "\n${ORANGE}[${WHITE}2${ORANGE}]${P} --desktop${BLUE}|${P}-d: ${WHITE}Install ${GREEN}Archnon ${WHITE}with a desktop environment${NC}"
+	echo -e "\n${ORANGE}[${WHITE}3${ORANGE}]${P} --others${BLUE}|${P}-o: ${WHITE}Show an entire list of posible setups for${GREEN} Archnon${NC}"
+	echo -e "\n${ORANGE}[${WHITE}4${ORANGE}]${P} --help${BLUE}|${P}-h: ${WHITE}Prints this help page${NC}"
 	exit 1
 }
+
+##### Instalation modes #####
 
 while [ $# -gt 0 ]; do
 	case $1 in
 
-	--minimal)
+	--minimal|-m)
 	mode=1
 
 	cmd=setup-alpine 	
@@ -60,7 +64,7 @@ while [ $# -gt 0 ]; do
 	break
 	;;
 
-	--desktop)
+	--desktop|-d)
 	mode=2
 
 	cmd=setup-desktop	
@@ -82,7 +86,7 @@ while [ $# -gt 0 ]; do
 	break
 	;;
 
-	--others)
+	--others|-o)
 	mode=3
 
 	ls --color=auto /usr/sbin | grep --color=auto "setup"
@@ -91,7 +95,7 @@ while [ $# -gt 0 ]; do
 	break
 	;;
 
-	--help)
+	--help|-h)
 	mode=4
 	usage
 	
@@ -101,7 +105,9 @@ while [ $# -gt 0 ]; do
 
 	--*|-*|*)
 	mode=5
-	usage
+	echo -e "\n${RED}[${NC}err${RED}] Invalid option: ${YELLOW}'$1'${NC}"
+    echo -e "\n$${RED}[${YELLOW}warn${RED}]${ORANGE} Try: ${LB}'$0 ${BLUE}--help${LB}'${NC}
+    exit 1
 	
 	shift
 	break
@@ -110,6 +116,7 @@ while [ $# -gt 0 ]; do
 	esac
 done
 
+##### Throw manual condition #####
 if [[ -z $mode ]]; then
 	usage
 fi
