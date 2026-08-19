@@ -47,7 +47,7 @@ target=$1
 
 if [ -z $target ]; then
     echo -e "\n${RED}[${WHITE}err${RED}] Missing target, ${P}ex${WHITE}: ${ORANGE}domain, ip.${NC}"
-    echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${WHITE} usage: ${GREEN}sudo ${P}$0 ${YELLOW}<${LB}target${YELLOW}>${NC}"
+    echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${WHITE} usage: ${P}$0 ${YELLOW}<${LB}target${YELLOW}>${NC}"
     exit 1
 fi
 
