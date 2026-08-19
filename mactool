@@ -84,7 +84,7 @@ echo -e "\n"
 echo -e "${ORANGE}[${BLUE}*${ORANGE}] ${YELLOW}Coded By: ${ORANGE}archnon@protonmail.com ${NC}"
 
 usage(){
-echo -e "\n${ORANGE}[${YELLOW}*${ORANGE}]${GREEN} usage: ${P}mactool ${NC}<${GREEN}COMMAND${NC}> ${NC}<${GREEN}OPTIONS${NC}>${NC}"
+echo -e "\n${ORANGE}[${YELLOW}*${ORANGE}]${GREEN} usage: ${P}$0 ${NC}<${GREEN}COMMAND${NC}> ${NC}<${GREEN}OPTIONS${NC}>${NC}"
 echo -e "\n${BLUE}[${ORANGE}1${BLUE}] ${ORANGE}-c${BLUE}|${ORANGE}--change-mac${NC}: ${NC}${GREEN}Change MAC of device${NC}"
 echo -e "\n${BLUE}[${ORANGE}2${BLUE}] ${ORANGE}-e${BLUE}|${ORANGE}--enable-boot${NC}: ${GREEN}Enable MAC changing on boot${NC}"
 echo -e "\n${BLUE}[${ORANGE}3${BLUE}] ${ORANGE}-d${BLUE}|${ORANGE}--disable-boot${NC}: ${RED}Disable ${GREEN}MAC changing on boot${NC}"
@@ -324,26 +324,26 @@ while [ $# -gt 0 ]; do
         fi
 
         if [ -z $i ]; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}Missing interval(secs)${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Missing interval(${ORANGE}secs${RED})${NC}"
                 exit 1
         fi
 
         if [ -z $device ]; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}Missing device name${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Missing device name${NC}"
                 exit 1
         fi
 
         if ! ip a | grep "$device" >/dev/null 2>&1; then
                 dlist
-                echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${YELLOW}'$device', ${RED}No such device${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] No such device ${ORANGE}'$device'${NC}"
                 exit 1
         fi
 
         if ! command -v mactd >> /dev/null 2>&1; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Missing Daemon${BLUE}(${ORANGE}'mactd',${LB} it should be in your PATH: ${YELLOW}$PATH${BLUE})"
+                echo -e "\n${RED}[${NC}-${RED}] Missing Daemon script ${ORANGE}'mactd'${NC}"
                 exit 1
         else
-                mactd $i $device && echo -e "\n${ORANGE}[${BLUE}+${ORANGE}]${GREEN} New Daemon Launched !${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknon: ${RED}Could not launch daemon${NC}"
+                mactd $i $device && echo -e "\n${ORANGE}[${BLUE}notice${ORANGE}]${GREEN} New Daemon Launched !${NC}" || echo -e "\n${RED}[${NC}-${RED}] Could not launch daemon${NC}"
                 exit 0
         fi
 
@@ -357,25 +357,24 @@ while [ $# -gt 0 ]; do
         device=$2
 
         if [ $EUID -ne 0 ]; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Run as root${NC}"
                 exit 1
         fi
 
 
         if [ -z $device ]; then
                 usage
-                echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}Missing device name${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] Missing device name${NC}"
                 exit 1
         fi
 
 
         if ! ip a | grep "$device" >/dev/null 2>&1; then
-                usage
-                echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${YELLOW}'$device', ${RED}No such device${NC}"
+                echo -e "\n${RED}[${NC}-${RED}] No such device ${ORANGE}'$device'${NC}"
                 exit 1
         fi
 
-        restore && echo -e "\n${ORANGE}[${BLUE}!${ORANGE}]${GREEN} $device's MAC was restored${ORANGE}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not restore MAC of: ${YELLOW}'$device'${ORANGE}"
+        restore && echo -e "\n${ORANGE}[${BLUE}!${ORANGE}]${GREEN} $device's MAC was restored${ORANGE}" || echo -e "\n${RED}[${NC}-${RED}] Could not restore MAC${NC}"
         macchanger -s $device && echo -e "\n${NC}"
         exit 0
 
@@ -387,7 +386,7 @@ while [ $# -gt 0 ]; do
         -l|-list-available-devices|--list-available-devices)
         mode=6
 
-        echo -e "\n${ORANGE}[${BLUE}!${ORANGE}]${GREEN} Available Devices${NC}:" && ip link || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}could not show devices${NC}"
+        echo -e "\n${ORANGE}[${BLUE}!${ORANGE}]${GREEN} Available Devices${NC}:" && ip link || echo -e "\n${RED}[${NC}-${RED}] Could not show devices${NC}"
 
         exit 0
         shift
