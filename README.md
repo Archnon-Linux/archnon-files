@@ -1,7 +1,7 @@
 # Archnon Linux's Project File v3.0.12 (by archnon@protonmail.com btw)
 # Coded by: archnon@protonmail.com, at all btw
 
-Contains.utils = (neptune, neptunec, neptuner, mactool, mactd, nkill, setup-archnon, wifictl)
+Contains.utils = (lazyanon, anonman, anondns, lazymac, mactd, nkill, setup-archnon, wifictl)
 Contains.files = (archnon.iso, .profile, .shrc, README.md, config.ini, example_bridges.txt)
 
 Requires.packages = (bash, sudo)
