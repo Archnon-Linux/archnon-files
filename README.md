@@ -1,6 +1,10 @@
 # Archnon Linux's Project File v3.0.12 (by archnon@protonmail.com btw)
 # Coded by: archnon@protonmail.com, at all btw
 
+####################################################################
+# Copyright (c) 2026 archnon@protonmail.com. All Rights Reserved.  #
+####################################################################
+
 Contains.utils = (lazyanon, anonman, anondns, lazymac, mactd, nkill, setup-archnon, wifictl)
 Contains.files = (archnon.iso, .profile, .shrc, README.md, config.ini, example_bridges.txt, make_it_work)
 
