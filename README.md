@@ -2,7 +2,7 @@
 # Coded by: archnon@protonmail.com, at all btw
 
 Contains.utils = (lazyanon, anonman, anondns, lazymac, mactd, nkill, setup-archnon, wifictl)
-Contains.files = (archnon.iso, .profile, .shrc, README.md, config.ini, example_bridges.txt)
+Contains.files = (archnon.iso, .profile, .shrc, README.md, config.ini, example_bridges.txt, make_it_work)
 
 Requires.packages = (bash, sudo)
 Supports.service_managers = (systemd, runit, open-rc)
