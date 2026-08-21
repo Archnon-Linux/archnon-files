@@ -10,8 +10,8 @@ Files = (archnon.iso, .profile, .shrc, .zshrc, .bashrc, config.ini, example_brid
 
 Requires = (bash, git, sudo/root)
 
-Supported.service_managers = (systemd, runit, open-rc)
-Supported.package_managers = (apt, apk, pacman, emerge, xbps-install, dnf, yum, zypper)
+Service for = (systemd, runit, open-rc)
+Package managers = (apt, apk, pacman, emerge, xbps-install, dnf, yum, zypper)
 
 Description = “Developed by: archnon@protonmail.com btw, Archnon is an Alpine Linux based distro with the only focus being anonymous, fully private, super portable/light, using as much 50 mb of ram by default on its minimal”
 
