@@ -1,17 +1,18 @@
-# Archnon Linux's Project File v3.0.12 (by archnon@protonmail.com btw)
+# Archnon Linux's Project Files v3.0.12 (by archnon@protonmail.com btw)
 # Coded by: archnon@protonmail.com, at all btw
 
 ####################################################################
 # Copyright (c) 2026 archnon@protonmail.com. All Rights Reserved.  #
 ####################################################################
 
-Contains.utils = (lazyanon, anonman, anondns, lazymac, mactd, nkill, setup-archnon, wifictl)
-Contains.files = (archnon.iso, .profile, .shrc, README.md, config.ini, example_bridges.txt, make_it_work)
+Utilities = (lazyanon, anonman, anondns, lazymac, mactd, nkill, setup-archnon, wifictl)
+Files = (archnon.iso, .profile, .shrc, .zshrc, .bashrc, config.ini, example_bridges.txt, make_it_work)
 
-Requires.packages = (bash, sudo)
-Supports.service_managers = (systemd, runit, open-rc)
-Supports.package_managers = (apt, apk, pacman, emerge, xbps-install, dnf, yum, zypper)
+Requires = (bash, git, sudo/root)
 
-Project.description = “Developed by: archnon@protonmail.com btw, Archnon is an Alpine Linux based distro with the only focus being anonymous, fully private, super portable/light, using as much 50 mb of ram by default on its minimal”
+Supported.service_managers = (systemd, runit, open-rc)
+Supported.package_managers = (apt, apk, pacman, emerge, xbps-install, dnf, yum, zypper)
 
-Project.usage = $(sudo git clone https://github.com/Archnon-Linux/archnon-files && cd archnon-files && sudo chmod +x * && sudo ./make_it_work)
+Description = “Developed by: archnon@protonmail.com btw, Archnon is an Alpine Linux based distro with the only focus being anonymous, fully private, super portable/light, using as much 50 mb of ram by default on its minimal”
+
+Project.usage = $(su && git clone https://github.com/sleuth3301/archnon-files && cd archnon-files && chmod +x * && ./make_it_work)
