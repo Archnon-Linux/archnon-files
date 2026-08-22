@@ -2,8 +2,8 @@
 
 ################################################################################################################
 #                                                                                                              #
-# ANON-DNS ARCHNON LINUX TOOL FOR RESOLVING AND CONFIGURING ANONYMOUS DNS.                                     #
-# CODED BY: archnon@protonmail.com, btw.                                                                       #
+# ANON-DNS: Simple Tool for making DNS Anonymous via Firewall & Tor daemon (can resolve .onion).               #
+# CODED BY: archnon@protonmail.com                                                                             #
 #                                                                                                              #
 ################################################################################################################
 ####################################################################
