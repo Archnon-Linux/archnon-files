@@ -53,4 +53,4 @@ package = {
    zypper // open-suse
 };
 
-clone = git clone https://github.com/sleuth3301/lazy-anon
+clone = git clone https://github.com/strxint/lazy-anon
