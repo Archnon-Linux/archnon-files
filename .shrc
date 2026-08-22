@@ -32,7 +32,7 @@ export BASH_CONFIG="~/.bashrc"
 export SH_CONFIG="~/.shrc"
 export ZSH_CONFIG="~/.zshrc"
 export CONFIG="~/.config"
-export ENV
+export ENV="$HOME/.shrc"
 
 ######## Alias #########
 
