@@ -1,4 +1,0 @@
-#!/bin/bash
-
-sudo chmod +x * && sudo mv anon* nkill* mactd* wifictl* setup* lazy* /usr/local/bin && lazyanon && lazymac
-echo -e "\n$0: now you can run any of the tools normally"
