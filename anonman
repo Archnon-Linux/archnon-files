@@ -386,7 +386,7 @@ EOT
 
     echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating project..${NC}"
 
-    if git clone https://github.com/sleuth3301/lazy-anon && cd lazy-anon && chmod +x * && ./lazyanon.sh; then
+    if git clone https://github.com/strxint/lazy-anon && cd lazy-anon && chmod +x * && ./lazyanon.sh; then
       echo -e "\n${BLUE}[${LB}OKAY${BLUE}]${P} project updated${NC}"
       exit 0
     else
