@@ -1,18 +1,56 @@
-# Archnon Linux's Project Files v4.0.0 (by archnon@protonmail.com btw)
-# Coded by: archnon@protonmail.com, at all btw
-
+# Lazy Anonymous tools for Linux, v4.0.0 #
 ####################################################################
 # Copyright (c) 2026 archnon@protonmail.com. All Rights Reserved.  #
 ####################################################################
 
-scripts = (lazyanon, anonman, anondns, lazymac, mactd, nkill, setup-archnon, wifictl)
+info = { 
+   "dev": "archnon@protonmail.com",
+   "HasTor": "true",
+   "HasI2pd": "true",
+   "HasFirewall": "true",
+   "firewall": "nft",
+   "tor": "/etc/tor/torrc",
+   "i2pd": "--daemon",
+   "scriptsPathSuggested": "/usr/local/bin",
+   "HasKillSwitch": "true",
+   "SupportsIPv6": "false",
+   "RemoteSSH": "iptables",
+   "HasCopyright": "true",
+   "IsLinuxOnly": "false",
+   "IsLight": "true",
+   "IsMinimal": "true",
+   "IsPortable": "true",
+   "lang": "bash",
+};
 
-Requires = (bash, git, sudo/root)
+scripts = {
+   lazyanon, // script for Tor, i2pd, firewall and no ipv6, etc.
+   anonman, // script for manage Torrc and firewall, etc.
+   anondns, // script for making dns over Tor/i2pd, etc.
+   lazymac // script for manage MAC changes, etc.
+};
 
-Service for = (systemd, runit, open-rc)
+required = { 
+   bash, // main scripting language.
+   git, // clone repo
+   root // for firewall, boot, ipv6, etc.
+};
 
-Package managers = (apt, apk, pacman, emerge, xbps-install, dnf, yum, zypper)
+services = { 
+   systemd, // systemctl 
+   runit, // sv
+   open-rc // rc-service, rc-update
+};
 
-Description = “Developed by: archnon@protonmail.com btw, Archnon is an Alpine Linux based distro with the only focus being anonymous, fully private, super portable/light, using as much 50 mb of ram by default on its minimal”
+package = { 
+   apt, // debian
+   apk, // alpine
+   pacman, // arch
+   emerge, // gentoo
+   xbps-install, // void
+   dnf, // RHEL
+   yum, // RHEL
+   zypper // open-suse
+};
 
-Project.usage = $(su && git clone https://github.com/sleuth3301/archnon-files && cd archnon-files && chmod +x * && ./make_it_work)
+clone = git clone https://github.com/sleuth3301/lazy-anon
