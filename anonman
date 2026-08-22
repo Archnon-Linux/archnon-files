@@ -129,7 +129,7 @@ usage() {
   echo -e "\n${BLUE}[${ORANGE}2${BLUE}]${LB} -p${BLUE}|${LB}--print ${NC}<${P}arg${NC}>: ${ORANGE}show some object or file${NC}"
   echo -e "\n${BLUE}[${ORANGE}4${BLUE}]${LB} -f${BLUE}|${LB}--load-torrc ${NC}<${P}arg${NC}>: ${ORANGE}Load ${P}custom Torrc${NC}"
   echo -e "\n${BLUE}[${ORANGE}5${BLUE}]${LB} -b${BLUE}|${LB}--load-bridges: ${ORANGE}Load ${P}custom Bridges for Torrc${NC}"
-  echo -e "\n${BLUE}[${ORANGE}6${BLUE}]${LB} -u${BLUE}|${LB}--update-project: ${ORANGE}update ${P}archnon-files ${ORANGE}via git${NC}"
+  echo -e "\n${BLUE}[${ORANGE}6${BLUE}]${LB} -u${BLUE}|${LB}--update-project: ${ORANGE}update ${P}lazy-anon ${ORANGE}via git${NC}"
 }
 
 # modes "$1"
@@ -341,7 +341,9 @@ EOT
       echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} usage: ${LB}$0 ${BLUE}--load-bridges ${YELLOW}<${NC}file${YELLOW}> ${YELLOW}<${NC}kind${YELLOW}> ${YELLOW}<${NC}bin${YELLOW}>${NC}"
       echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} example: ${LB}$0 ${BLUE}--load-bridges ${P}bridges.txt ${P}obfs4 ${P}/usr/bin/obfs4proxy${NC}"
       echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} correct format for bridges: ${NC}<${YELLOW}'bridge'${NC}> ${YELLOW}<${NC}type${YELLOW}> [${NC}IP${YELLOW}]${GREEN}:${YELLOW}[${NC}PORT${YELLOW}] [${NC}fingerprint${YELLOW}] [${NC}Key=value${YELLOW}]${NC}"
-      exit 1
+      echo -e "\n${RED}[${YELLOW}warn${RED}]${ORANGE} example bridge: ${GREEN}bridge obfs4 212.227.255.73:8443 F54793EA577F90F679A9C0E787AB8431BDDABB41 cert=dOzgPNKdfo3SZIC2Sp3qtDX7wuo1KLzBe1KSzSAuK9CkySqF5/TnudjgHPub5sobpso4fw iat-mode=0${NC}"
+	  exit 1
+
     elif ! [[ -f $file || -f $bin ]]; then
       echo -e "\n${RED}[${WHITE}X${RED}] No such bin or file${NC}"
       exit 1
@@ -384,7 +386,7 @@ EOT
 
     echo -e "\n${BLUE}[${ORANGE}warn${BLUE}]${GREEN} Updating project..${NC}"
 
-    if git clone https://github.com/sleuth3301/archnon-files && cd archnon-files && chmod +x * && ./make_it_work; then
+    if git clone https://github.com/sleuth3301/lazy-anon && cd lazy-anon && chmod +x * && ./lazyanon.sh; then
       echo -e "\n${BLUE}[${LB}OKAY${BLUE}]${P} project updated${NC}"
       exit 0
     else
