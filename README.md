@@ -5,8 +5,7 @@
 # Copyright (c) 2026 archnon@protonmail.com. All Rights Reserved.  #
 ####################################################################
 
-Utilities = (lazyanon, anonman, anondns, lazymac, mactd, nkill, setup-archnon, wifictl)
-Files = (archnon.iso, .profile, .shrc, .zshrc, .bashrc, config.ini, example_bridges.txt, make_it_work)
+scripts = (lazyanon, anonman, anondns, lazymac, mactd, nkill, setup-archnon, wifictl)
 
 Requires = (bash, git, sudo/root)
 
