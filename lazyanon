@@ -4,8 +4,8 @@
 # LazyAnon - bash based privacy tool.                                                                                            #
 # Based in: bash.                                                                                                                #
 # Requires: netcat-openbsd curl tor nftables procps networkmanager iproute2 coreutils util-linux bash sudo e2fsprogs i2pd        #
-# Version: 3.0.12.                                                                                                               #
-# Developer is: archnon@protonmail.com, btw.                                                                                     #
+# Version: 4.0.0                                                                                                                 #
+# Dev: archnon@protonmail.com                                                                                                    #
 ##################################################################################################################################
 ####################################################################
 # Copyright (c) 2026 archnon@protonmail.com. All Rights Reserved.  #
